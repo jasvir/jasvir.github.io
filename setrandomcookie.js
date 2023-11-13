@@ -1,1 +1,1 @@
-document.cookie = Math.random();
+document.cookie = "result=" + Math.random();
