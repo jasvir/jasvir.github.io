@@ -1,7 +1,14 @@
 <!DOCTYPE html>
 <html>
   <head>
-
+    <script>
+      document.cookie = "";
+      console.log("#1", document.cookie);
+    </script>
+    <script src="setrandomcookie.js"></script>
+    <script>
+      console.log("#2", document.cookie);
+    </script>
   </head>
   <body>
     Success
