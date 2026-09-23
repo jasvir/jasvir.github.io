@@ -15,23 +15,18 @@
 {"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.167.1/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.167.1/examples/jsm/"}}
 </script>
 <h1>Island profile export</h1>
-<p>Captures the existing island scene into a CSS-only SVG. The source website is unchanged.</p>
+<p>Captures the shared island scene into a CSS-only SVG, using the same models and camera presets as the website.</p>
 <button id="capture" disabled>Capture both views</button>
 <button id="overview" disabled>Preview overview</button>
 <button id="library" disabled>Preview library</button>
 <a href="/examples/island-profile-spike/preview.html">Open README preview</a>
 <p id="status" role="status">Loading the original scene…</p>
 <div id="island-stage"><canvas id="island-canvas"></canvas></div>
-<div hidden>
-  <div id="scene-loader"></div>
-  <button id="motion-toggle"><span></span></button>
-  <button id="zoom-in"></button><button id="zoom-out"></button>
-</div>
 <script type="module">
   const status = document.querySelector("#status");
   const buttons = [...document.querySelectorAll("body > button")];
   try {
-    const { renderExportFrame } = await import("/capture/scene.js");
+    const { renderExportFrame } = await import("/examples/island-profile-spike/capture-adapter.js");
     const config = await fetch("/capture/config").then(r => r.json());
     status.textContent = `Ready. Source ${config.sourceHash.slice(0, 12)}. ${config.width} × ${config.height}px.`;
     buttons.forEach(button => button.disabled = false);

@@ -27,7 +27,9 @@ jobs:
       - name: Refresh writing previews (saved snapshot is the fallback)
         run: node scripts/refresh-writing-posts.mjs
       - name: Validate before publishing
-        run: node --test tests/*.test.mjs examples/island-profile-spike/verify.test.mjs
+        run: |
+          npm ci --ignore-scripts
+          npm test
       - name: Configure Pages
         uses: actions/configure-pages@v5
       - name: Upload only the static website

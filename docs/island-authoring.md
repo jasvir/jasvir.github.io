@@ -85,7 +85,8 @@ The scene and its contents are deliberately separate:
 - `dist/coastlines.js`: saved island outlines and their relative positions.
 - `dist/island-layout.js`: the camera, named building plots and sign anchors,
   landmarks, cobblestone paths, river, railway, boat route, and flight route.
-- `dist/script.js`: the reusable 3D models, terrain details, and animation.
+- `dist/scene/`: reusable 3D models, materials, terrain details, camera presets, and animation.
+- `dist/script.js`: browser controls, picking, projected labels, and the render loop.
 - `dist/content.js`: the editable content catalogue; this is the usual place to work.
 - `dist/content-view.js`: creates signs, directory entries, and popups from that catalogue.
 - `dist/writing-posts.js`: the current writing preview snapshot.
@@ -94,8 +95,9 @@ Only change the layout when intentionally changing the geography or adding a new
 building. Content can use any existing site without touching scene code.
 The directory and popups load independently of the 3D library.
 
-Run `node --test tests/content.test.mjs` to check the catalogue, shared-building
-behavior, and saved-layout invariants before publishing.
+Run `npm ci --ignore-scripts` once, then `npm test` to check the catalogue,
+shared-building behavior, saved layout, deterministic scene animation, and export
+fixture before publishing. See [the shared scene API](shared-scene.md).
 
 ## Geography
 

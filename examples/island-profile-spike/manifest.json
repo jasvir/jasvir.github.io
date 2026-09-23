@@ -1,25 +1,33 @@
 {
-  "sourceHash": "e09396f61da960dcf3b7de2fc4b3cdfa3594afa5378d421566130d7f13c19b3e",
+  "sourceHash": "322c4d26e77ccbc204b8315b45c1e3c3a322648f7d8d3a17987415cd1d5f5b0c",
   "sourceFiles": [
-    "script.js",
     "island-layout.js",
-    "coastlines.js"
+    "coastlines.js",
+    "scene/palette.js",
+    "scene/primitives.js",
+    "scene/materials.js",
+    "scene/models.js",
+    "scene/create-island-scene.js",
+    "scene/animation.js",
+    "scene/camera-presets.js",
+    "scene/camera.js",
+    "scene/renderer.js"
   ],
   "width": 600,
   "height": 400,
-  "svgBytes": 5065107,
-  "gzipBytes": 3821140,
+  "svgBytes": 5064115,
+  "gzipBytes": 3820148,
   "frames": 128,
   "views": [
     {
       "id": "overview",
       "frames": 96,
-      "atlasBytes": 2915914
+      "atlasBytes": 2919000
     },
     {
       "id": "library",
       "frames": 32,
-      "atlasBytes": 876258
+      "atlasBytes": 872428
     }
   ],
   "sceneTime": 7,

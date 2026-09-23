@@ -17,4 +17,6 @@ jobs:
         with:
           node-version: 22
       - name: Check content, layout, and export fixture
-        run: node --test tests/*.test.mjs examples/island-profile-spike/verify.test.mjs
+        run: |
+          npm ci --ignore-scripts
+          npm test
