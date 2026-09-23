@@ -1,4 +1,8 @@
 // Pure content indexing, shared by the page and the authoring checks.
+export function siteTitle(contents, site) {
+  return contents.length > 1 ? site.name : contents[0]?.mapTitle || contents[0]?.title || site.name;
+}
+
 export function createCatalogue(entries, sites) {
   const items = [];
   const bySite = new Map(Object.keys(sites).map((site) => [site, []]));

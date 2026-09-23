@@ -1,6 +1,6 @@
 import { entries } from "./content.js";
 import { islandLayout } from "./island-layout.js";
-import { createCatalogue } from "./catalogue.js";
+import { createCatalogue, siteTitle } from "./catalogue.js";
 import { writingPosts } from "./writing-posts.js";
 
 const catalogue = createCatalogue(entries, islandLayout.sites);
@@ -154,7 +154,7 @@ for (const [key, site] of Object.entries(islandLayout.sites)) {
   if (contents.length > 1 || !["cottages", "sign"].includes(site.model)) {
     copy.append(element("small", "", contents.length > 1 ? `${contents.length} things to explore` : site.name));
   }
-  copy.append(element("strong", "", contents.length > 1 ? site.name : first.mapTitle || first.title));
+  copy.append(element("strong", "", siteTitle(contents, site)));
   if (!hasPreview && first.hoverDescription) {
     const description = element("span", "sign-description", first.hoverDescription);
     description.id = `sign-description-${first.id}`;

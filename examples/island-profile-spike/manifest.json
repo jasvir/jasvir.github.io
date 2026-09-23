@@ -1,8 +1,13 @@
 {
-  "sourceHash": "322c4d26e77ccbc204b8315b45c1e3c3a322648f7d8d3a17987415cd1d5f5b0c",
+  "sourceHash": "abe34a8af31443181e20b828450b7ca70cb0d829de4f30411dbc328ff52e94f4",
   "sourceFiles": [
     "island-layout.js",
     "coastlines.js",
+    "content.js",
+    "catalogue.js",
+    "../examples/island-profile-spike/views.js",
+    "../examples/island-profile-spike/labels.js",
+    "../examples/island-profile-spike/capture-adapter.js",
     "scene/palette.js",
     "scene/primitives.js",
     "scene/materials.js",
@@ -14,22 +19,58 @@
     "scene/renderer.js"
   ],
   "width": 600,
-  "height": 400,
-  "svgBytes": 5064115,
-  "gzipBytes": 3820148,
-  "frames": 128,
+  "height": 520,
+  "svgBytes": 9571551,
+  "frames": 224,
   "views": [
     {
       "id": "overview",
+      "site": "overview",
       "frames": 96,
-      "atlasBytes": 2919000
+      "file": "island.svg",
+      "atlasBytes": 3274782,
+      "svgBytes": 4371770,
+      "gzipBytes": 3300703
     },
     {
-      "id": "library",
+      "id": "two-dozen",
+      "site": "twoDozen",
       "frames": 32,
-      "atlasBytes": 872428
+      "file": "island-two-dozen.svg",
+      "atlasBytes": 941504,
+      "svgBytes": 1257675,
+      "gzipBytes": 948119
+    },
+    {
+      "id": "homepage",
+      "site": "home",
+      "frames": 32,
+      "file": "island-homepage.svg",
+      "atlasBytes": 990306,
+      "svgBytes": 1322892,
+      "gzipBytes": 998022
+    },
+    {
+      "id": "secretseal",
+      "site": "library",
+      "frames": 32,
+      "file": "island-secretseal.svg",
+      "atlasBytes": 971134,
+      "svgBytes": 1297188,
+      "gzipBytes": 978686
+    },
+    {
+      "id": "trapdoor",
+      "site": "research",
+      "frames": 32,
+      "file": "island-trapdoor.svg",
+      "atlasBytes": 989764,
+      "svgBytes": 1322026,
+      "gzipBytes": 997450
     }
   ],
   "sceneTime": 7,
-  "compensationPixels": 40
+  "compensationPixels": 40,
+  "labelled": true,
+  "popupAfterApproach": true
 }

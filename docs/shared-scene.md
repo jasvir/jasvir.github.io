@@ -61,8 +61,10 @@ initialization difference is deliberate so still captures have defined positions
 
 The existing capture fixture freezes **all** motion at time 7. Unlike the first
 prototype, its train and walkers use that same time as the water and journeys.
-Frame count, image resolution, and the two camera sequences remain unchanged.
-Adding three highlights or optimizing download size is step 4.
+The initial two-view fixture has since been extended to the four requested
+destinations, with captured labels and information cards. See
+[profile navigation](profile-navigation.md) for the current output format and
+timing. Production download-size optimization remains separate.
 
 ## Camera poses
 
@@ -95,7 +97,7 @@ API, and its manifest fingerprints all shared rendering modules plus layout and
 coastlines. This is visual/manual verification, not a pixel-exact screenshot test.
 
 To regenerate after intentionally changing the scene, run `npm run capture`, open
-the local address and choose **Capture both views**. Review the preview and
+the local address and choose **Capture all views**. Review the preview and
 commit the SVG and manifest together. A stale fixture fails its provenance test.
 
 This refactor is stacked on the source-migration branch. It does not enable

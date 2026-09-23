@@ -1,26 +1,40 @@
 <!doctype html>
-<html lang="en">
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Island profile — CSS-only preview</title>
+<html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Island profile — places to explore</title>
 <style>
-  :root { color-scheme: light dark; }
-  body { max-width: 860px; margin: 32px auto; padding: 0 24px; font: 16px/1.5 system-ui; }
-  details { margin: 0 0 16px; }
-  summary { cursor: pointer; line-height: 24px; }
-  p { margin: 0 0 16px; }
-  img { max-width: 100%; height: auto; }
-  a { color: #b1269b; }
+body{max-width:980px;margin:40px auto;padding:0 24px;background:#fffdf8;color:#21383a;font:15px/1.55 system-ui}
+h1{font-family:Georgia,serif;font-size:34px;margin-bottom:8px}a{color:#a3088a}main{position:relative;padding-left:190px;min-height:570px;margin-top:28px}
+details>summary{position:absolute;left:0;top:calc(var(--index)*48px);width:160px;padding:10px 8px;cursor:pointer;border-radius:8px}
+details[open]>summary{background:#f7e9f5;color:#96087c;font-weight:650}section{max-width:600px}
+.viewport{position:relative;aspect-ratio:5/3;overflow:hidden;border-radius:12px;background:#fff}
+.viewport img{position:absolute;left:0;top:var(--shift);width:100%;height:auto}p{margin:12px 0}footer{font-size:13px;color:#586b66}
+@media(max-width:700px){main{padding-left:0;min-height:0}details>summary{position:static;width:auto;margin:5px 0}section{padding-bottom:16px}}
 </style>
-<h1>Around the islands</h1>
-<p>Pick a view. These are SVG images with embedded CSS animation; this page has no JavaScript.</p>
-<details name="island-profile-view" open>
-  <summary>🗺️ Around the islands</summary>
-  <p align="right"><img src="./island.svg#overview" width="600" alt="Rotating overview"></p>
-</details>
-<details name="island-profile-view">
-  <summary>📚 At the library · SecretSeal</summary>
-  <p align="right"><img src="./island.svg#library" width="600" alt="Library camera approach"></p>
-</details>
-<p><a href="./island.svg#overview">Open overview SVG</a> · <a href="./island.svg#library">Open library SVG</a> · <a href="./README.md">README source</a></p>
-</html>
+<h1>Around the islands</h1><p>Pick a place. Zoom in, then meet the project. Labels and information cards are part of the exported artwork.</p>
+<main aria-label="Island places">
+<details name="island-profile-view" style="--index:0" open>
+<summary>Around the islands</summary><section>
+<div class="viewport" style="--shift:-44.44444444444444%"><img src="./island.svg#overview" alt="Around the islands — labelled island view" width="600"></div>
+<p>A small collection of ideas, scattered across the islands.</p><p><a href="https://jasvir.github.io/">Explore the full island</a></p>
+</section></details>
+<details name="island-profile-view" style="--index:1">
+<summary>Two Dozen</summary><section>
+<div class="viewport" style="--shift:-33.33333333333333%"><img src="./island-two-dozen.svg#two-dozen" alt="Two Dozen — labelled island view" width="600"></div>
+<p>A series of short visits to poems from different languages and traditions.</p><p><a href="https://www.recursiverhymes.com/s/two-dozen">See more…</a></p>
+</section></details>
+<details name="island-profile-view" style="--index:2">
+<summary>About Me</summary><section>
+<div class="viewport" style="--shift:-22.22222222222222%"><img src="./island-homepage.svg#homepage" alt="About Me — labelled island view" width="600"></div>
+<p>I’m an advisor and builder. I previously worked on security at Dropbox and product at Instart and Google. I authored Surreptitious Software and served as tech lead for Caja. I love good food, fine wine, and great JavaScript.</p><p><a href="https://jasvir.github.io/#entry-homepage">About Me on the full island</a></p>
+</section></details>
+<details name="island-profile-view" style="--index:3">
+<summary>SecretSeal</summary><section>
+<div class="viewport" style="--shift:-11.11111111111111%"><img src="./island-secretseal.svg#secretseal" alt="SecretSeal — labelled island view" width="600"></div>
+<p>Where can a secret travel in an HTTP request without quietly becoming durable?</p><p><a href="https://github.com/jasvir/secretseal">GitHub</a> · <a href="https://jasvir.github.io/secretseal/">Open the guide</a></p>
+</section></details>
+<details name="island-profile-view" style="--index:4">
+<summary>Trapdoor VMs</summary><section>
+<div class="viewport" style="--shift:0%"><img src="./island-trapdoor.svg#trapdoor" alt="Trapdoor VMs — labelled island view" width="600"></div>
+<p>A public VM that is practical to program only when you have the right secret.</p><p><a href="https://github.com/jasvir/Trapdoor-Virtual-Machines">GitHub</a> · <a href="https://github.com/jasvir/Trapdoor-Virtual-Machines#the-basic-idea">Read the idea</a></p>
+</section></details>
+</main><footer>No JavaScript in this preview. <a href="./README.md">README source</a> · GitHub uses stacked details instead of this sidebar.</footer></html>

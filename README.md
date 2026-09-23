@@ -45,9 +45,11 @@ RSS feed. The checked-in snapshot is retained if the feed is unavailable.
 ## Profile export experiment
 
 [`examples/island-profile-spike/`](examples/island-profile-spike/) retains the
-working rotating-overview/library proof and its capture tool. It reads this
+labelled rotating overview and four destination views with their capture tool. It reads this
 repository’s shared scene directly, without rewriting browser source. Its generated SVG is a compatibility fixture,
 not the production profile asset; see the [findings](examples/island-profile-spike/FINDINGS.md).
+The [navigation notes](docs/profile-navigation.md) describe the zoom-then-card
+sequence, generated assets, read-more links and GitHub layout limitations.
 
 ## Publishing status
 
