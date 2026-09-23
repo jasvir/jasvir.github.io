@@ -1,19 +1,18 @@
 # Deployment and rollback
 
-## Current migration state
+## Production publishing
 
-On 23 September 2026, `jasvir/jasvir.github.io` uses GitHub Pages' legacy
-branch-based publishing from `main` at `/`. The island migration branch has not
-changed that setting. Its root cookie-test files remain intact.
+The approved cutover replaces legacy branch publishing from `main` at `/` with
+GitHub Actions publishing of `dist/`. The obsolete root cookie-test `index.html`
+has been removed. Its historical copy remains at `/legacy-cookie-test/`.
 
-The new workflow is prepared but gated by the repository Actions variable
+The production workflow is gated by the repository Actions variable
 `ISLAND_PAGES_ENABLED=true` and the `main` branch. PRs and other branches run
 read-only tests; they cannot publish through this workflow.
 
-## Explicit cutover, when ready
+## Initial cutover or recovery setup
 
-1. Merge the reviewed migration into `main`. The old root site remains served
-   while the current branch-based Pages configuration is unchanged.
+1. Merge the reviewed website into `main`.
 2. In repository Settings → Pages, change the publishing source to **GitHub Actions**.
 3. Ensure the `github-pages` environment allows deployment from `main`.
 4. Set the repository Actions variable `ISLAND_PAGES_ENABLED` to `true`.
@@ -35,8 +34,9 @@ Official reference: [Using custom workflows with GitHub Pages](https://docs.gith
   on `main`, then run the gated deployment workflow again.
 - To restore the pre-island cookie-test site, set `ISLAND_PAGES_ENABLED=false`,
   wait for or cancel any in-flight island deployment, and restore Pages'
-  **Deploy from a branch → main → /(root)** source. The original root files are
-  still present. Disabling the variable alone does not roll back published content.
+  original root `index.html` from git history before returning Pages to
+  **Deploy from a branch → main → /(root)**. Disabling the variable alone does
+  not roll back published content.
 - Do not delete the prior profile repo's island copy or disable its deployment
   until the new site's cutover has been confirmed. Retirement is a separate
   profile integration task, not part of this source migration.

@@ -5,7 +5,10 @@ import { readFile } from "node:fs/promises";
 const read = (path) => readFile(new URL(`../${path}`, import.meta.url), "utf8");
 
 test("legacy cookie-test entrypoints are preserved in the Pages artifact", async () => {
-  assert.equal(await read("dist/legacy-cookie-test/index.html"), await read("index.html"));
+  assert.match(await read("dist/legacy-cookie-test/index.html"), /Success/);
+  await assert.rejects(read("index.html"), { code: "ENOENT" });
+  assert.match(await read("dist/index.html"), /id="island-canvas"/);
+  assert.match(await read("dist/index.html"), /type="module" src="\.\/script.js/);
   const original = await read("setrandomcookie.js");
   assert.equal(await read("dist/legacy-cookie-test/setrandomcookie.js"), original);
   assert.equal(await read("dist/setrandomcookie.js"), original);

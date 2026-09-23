@@ -62,12 +62,12 @@ sequence, generated assets, read-more links and GitHub layout limitations.
 ## Publishing status
 
 The Actions workflow publishes **only `dist/`**, and only from `main` with
-`ISLAND_PAGES_ENABLED` set to `true`. It is deliberately gated during migration.
-The existing root `index.html` and `setrandomcookie.js` remain untouched so the
-current branch-based Pages site continues to work until the explicit cutover.
+`ISLAND_PAGES_ENABLED` set to `true`. GitHub Pages uses the Actions publishing
+source. The obsolete root `index.html` has been removed; `dist/index.html` is
+the full interactive island entrypoint, including its JavaScript modules.
 
 [Deployment and rollback instructions](docs/deployment.md) explain switching
-Pages to GitHub Actions. Do not enable the switch merely to preview a branch.
+Pages publishing and recovery. Do not change production settings to preview a branch.
 
 The old cookie test is also included at `/legacy-cookie-test/` in the new site,
 and its existing `/setrandomcookie.js` URL is preserved in the Pages artifact.

@@ -11,8 +11,8 @@ The four repositories in the public
 Trapdoor Virtual Machines, Caja, and Plush. Plush uses the railway station as its stop.
 
 The canonical source now lives in `jasvir/jasvir.github.io`. The static site is
-in `dist/`; `.github/workflows/deploy-pages.yml` is prepared for GitHub Actions
-publishing, gated until explicit cutover. See [deployment instructions](deployment.md).
+in `dist/`; `.github/workflows/deploy-pages.yml` publishes it through GitHub Actions
+with `ISLAND_PAGES_ENABLED=true`. See [deployment instructions](deployment.md).
 
 ## Local preview
 

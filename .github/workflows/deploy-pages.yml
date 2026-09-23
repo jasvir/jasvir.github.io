@@ -16,7 +16,7 @@ concurrency:
 
 jobs:
   build:
-    # Opt-in cutover gate. A migration merge must not replace the old site.
+    # Production kill switch; enabled for the approved island cutover.
     if: github.ref == 'refs/heads/main' && vars.ISLAND_PAGES_ENABLED == 'true'
     runs-on: ubuntu-latest
     steps:
