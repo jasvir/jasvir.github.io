@@ -35,7 +35,7 @@ does not deploy or synchronize repositories.
 - `profile/config.js`: ordered highlight IDs, dimensions, frame counts, quality,
   fixed scene time, alignment spacing, and size budgets.
 - `dist/content.js`: all selected titles, descriptions and links, including the
-  About Me paragraph used as the introduction.
+  About Me paragraph shown inside the expanded sections.
 - `dist/island-layout.js`, `dist/coastlines.js`, `dist/scene/`: the same island,
   positions, materials, textures and camera poses used by the interactive site.
 - `profile/render.js`: shared capture host for the exporter and old prototype.
@@ -55,7 +55,9 @@ unpublished selections fail rather than silently disappearing.
 - `island-two-dozen.svg`, `island-secretseal.svg`, `island-trapdoor.svg`,
   `island-homepage.svg`: looping approaches, returns and vector cards.
 - `README.md`: ready-to-copy relative image references, native details sections,
-  descriptions and actual catalogue links. About Me has no external card link.
+  descriptions and actual catalogue links. All visible content stays inside the
+  details sections; images and summary labels share a left edge. About Me has no
+  external card link.
 - `preview.html`: CSS-only local sidebar preview of those exact SVGs.
 - `content.json`: selected content and saved label anchors.
 - `manifest.json`: source hashes, source revision, browser version, configuration,

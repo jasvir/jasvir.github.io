@@ -46,6 +46,9 @@ test("README has only configured sections and catalogue links; About Me is self-
   const readme = profileReadme(profileConfig, content);
   assert.equal((readme.match(/<details /g) || []).length, 5);
   assert.equal((readme.match(/ open>/g) || []).length, 1);
+  assert.equal(readme.replace(/<!--[^]*?-->|<details\b[^]*?<\/details>/g, "").trim(), "");
+  assert.equal((readme.match(/<p align="left"><img/g) || []).length, 5);
+  assert.doesNotMatch(readme, /align="right"/);
   assert.match(readme, /src="\.\/island-homepage.svg"/);
   const about = readme.split("<summary>About Me</summary>")[1].split("</details>")[0];
   assert.doesNotMatch(about, /<a /);
