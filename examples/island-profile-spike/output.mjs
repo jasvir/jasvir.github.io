@@ -1,5 +1,5 @@
 import { escapeHtml, cardMarkup, cardStyles } from "./card.js";
-import { journeySeconds, approachEnd, returnStart } from "./journey.js";
+import { journeySeconds, cycleSeconds, cardHoldSeconds, approachEnd, returnStart } from "./journey.js";
 export { escapeHtml };
 export const assetName = view => view.id === "overview" ? "island.svg" : `island-${view.id}.svg`;
 export const offsetFor = (index, config) => (config.views.length - 1 - index) * config.compensationPixels;
@@ -9,17 +9,18 @@ export function svgFor(view, data, config, index) {
   const canvasHeight = height + (config.views.length - 1) * config.compensationPixels;
   const position = frame => `translate(${-(frame % columns) * width}px, ${-Math.floor(frame / columns) * height}px)`;
   const overview = view.id === "overview";
-  const key = (time, frame) => `${(time * 100).toFixed(5)}%{transform:${position(frame)}}`;
+  const key = (time, frame) => `${(time * (overview ? 1 : journeySeconds / cycleSeconds) * 100).toFixed(5)}%{transform:${position(frame)}}`;
   const keys = overview
     ? Array.from({ length: view.frames + 1 }, (_, frame) => key(frame / view.frames, frame % view.frames)).join("")
     : Array.from({ length: view.frames }, (_, frame) => key(frame / (view.frames - 1) * approachEnd, frame)).join("")
-      + Array.from({ length: view.frames }, (_, frame) => key(returnStart + frame / (view.frames - 1) * (1 - returnStart), view.frames - 1 - frame)).join("");
+      + Array.from({ length: view.frames }, (_, frame) => key(returnStart + frame / (view.frames - 1) * (1 - returnStart), view.frames - 1 - frame)).join("")
+      + `100.00000%{transform:${position(0)}}`;
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${canvasHeight}" viewBox="0 0 ${width} ${canvasHeight}" role="img" aria-labelledby="title desc">
 <title id="title">${escapeHtml(view.title)}</title>
 <desc id="desc">${escapeHtml(view.description)} Zooms to the building, centres its card, then returns the island to a common overview.</desc>
 <metadata>Source SHA-256: ${config.sourceHash}</metadata>
 <style>
-.motion{transform:${position(0)};animation:camera ${overview ? "20s" : `${journeySeconds}s`} steps(1,end) ${overview ? "infinite" : "1 forwards"}}
+.motion{transform:${position(0)};animation:camera ${overview ? "20s" : `${cycleSeconds}s`} steps(1,end) infinite}
 @keyframes camera{${keys}}
 @media(prefers-reduced-motion:reduce){.motion{animation:none}}
 ${overview ? "" : cardStyles}
@@ -37,7 +38,7 @@ function linksFor(view) {
 export function readmeFor(config) {
   return `# Around the islands
 
-Pick a place to zoom in. Its card moves to the centre while the island returns to a shared overview behind it. Use the links below to read more.
+Pick a place to zoom in. Its card moves to the centre while the island returns to a shared overview behind it. Each journey repeats after a ${cardHoldSeconds}-second reading pause and a short fade. Use the links below to read more.
 
 ${config.views.map((view, index) => `<details name="island-profile-view"${index === 0 ? " open" : ""}>
 <summary>${escapeHtml(view.title)}</summary>
@@ -76,7 +77,7 @@ details[open]>summary{background:#f7e9f5;color:#96087c;font-weight:650}section{m
 .viewport img{position:absolute;left:0;top:var(--shift);width:100%;height:auto}p{margin:12px 0}footer{font-size:13px;color:#586b66}
 @media(max-width:700px){main{padding-left:0;min-height:0}details>summary{position:static;width:auto;margin:5px 0}section{padding-bottom:16px}}
 </style>
-<h1>Around the islands</h1><p>Pick a place. Zoom in, meet the project, then watch the island return behind its card.</p>
+<h1>Around the islands</h1><p>Pick a place. Each journey loops, with a ${cardHoldSeconds}-second pause to read the card.</p>
 <main aria-label="Island places">
 ${config.views.map((view, index) => `<details name="island-profile-view" style="--index:${index}"${index === 0 ? " open" : ""}>
 <summary>${escapeHtml(view.title)}</summary><section>

@@ -4,7 +4,8 @@ The capture page and CSS-only preview now offer Around the islands, Two Dozen,
 About Me, SecretSeal, and Trapdoor VMs. Destination selection approaches its saved
 building position over 1.6 seconds, reveals its information card, then moves the
 card to the centre while the island returns to a common overview. The complete
-sequence lasts 4.8 seconds and holds the centred card over the overview.
+journey lasts 4.8 seconds, holds the centred card over the overview for 15 seconds,
+then fades the card out over 0.6 seconds. The 20.4-second cycle repeats indefinitely.
 Read-more links remain real HTML links outside the image; links inside an SVG
 embedded as an image are not interactive in the README.
 
@@ -53,9 +54,10 @@ offset compensates at a 600px image width; narrower layouts or wrapped summaries
 still change the apparent alignment.
 
 Reduced motion shows a static overview and centred card immediately.
-An embedded SVG's animation may remain completed when a previously opened
-details section is reopened; only the live capture tool guarantees a fresh
-approach on each selection. Clicking before a return finishes can still cause an
+An embedded SVG's animation does not reliably restart when a previously opened
+details section is reopened. The repeating cycle ensures it will animate again,
+but reopening can resume partway through the cycle; only the live capture tool
+guarantees a fresh approach on each selection. Clicking before a return finishes can still cause an
 island jump, as can leaving the rotating overview at a different angle. Switching
 between completed destinations removes the previous card immediately; only the
 island background is continuous, not the outgoing card. No JavaScript runs in

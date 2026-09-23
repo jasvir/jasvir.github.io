@@ -37,7 +37,10 @@ test("overview loops, approaches hold the final popup, and readme offsets match 
     assert.ok(asset.svg.includes(`translate(0 ${offsetFor(index,config)})`));
     if(asset.id==="overview") assert.match(asset.svg,/20s steps\(1,end\) infinite/);
     else {
-      assert.match(asset.svg,/4\.8s steps\(1,end\) 1 forwards/);
+      assert.match(asset.svg,/20\.4s steps\(1,end\) infinite/);
+      assert.match(asset.svg,/card-arrival 20\.4s linear infinite both/);
+      assert.match(asset.svg,/23\.52941%\{transform:translate\(0px, 0px\)\}/);
+      assert.match(asset.svg,/97\.05882%\{opacity:1;transform:var\(--card-end\)\}/);
       assert.match(asset.svg,/100\.00000%\{transform:translate\(0px, 0px\)\}/);
       assert.match(asset.svg,/<g class="popup"/);
       assert.match(asset.svg,/<text /);

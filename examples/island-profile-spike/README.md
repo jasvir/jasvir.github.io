@@ -1,6 +1,6 @@
 # Around the islands
 
-Pick a place to zoom in. Its card moves to the centre while the island returns to a shared overview behind it. Use the links below to read more.
+Pick a place to zoom in. Its card moves to the centre while the island returns to a shared overview behind it. Each journey repeats after a 15-second reading pause and a short fade. Use the links below to read more.
 
 <details name="island-profile-view" open>
 <summary>Around the islands</summary>

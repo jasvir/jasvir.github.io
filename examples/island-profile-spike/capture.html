@@ -15,7 +15,7 @@ canvas{display:block;width:100%;height:auto;border-radius:12px}#read-more{min-he
 {"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.167.1/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.167.1/examples/jsm/"}}
 </script>
 <h1>Around the islands</h1>
-<p>Choose a place. Its card comes forward while the island returns to a shared overview behind it.</p>
+<p>Choose a place. Each journey loops, with a 15-second pause to read the card.</p>
 <div class="toolbar"><button id="capture" disabled>Capture all views</button><a href="/examples/island-profile-spike/preview.html">Open CSS-only README preview</a></div>
 <p id="status" role="status">Run <code>npm run capture</code> and open the printed HTTP address to use this page.</p>
 <div class="island"><nav id="places" aria-label="Island places"></nav><section><div class="stage"><canvas id="island-canvas" width="600" height="360" aria-label="Labelled project island"></canvas><svg id="card-layer" viewBox="0 0 600 360" aria-hidden="true"></svg></div><div id="read-more"></div></section></div>
@@ -29,7 +29,7 @@ try {
   const config = await response.json();
   const { renderExportFrame } = await import("/examples/island-profile-spike/capture-adapter.js");
   const { cardMarkup, cardStyles } = await import("/examples/island-profile-spike/card.js");
-  const { journeyPhase, journeySeconds, approachEnd } = await import("/examples/island-profile-spike/journey.js");
+  const { journeyPhase, loopJourneyProgress, approachEnd } = await import("/examples/island-profile-spike/journey.js");
   const cardLayer = document.querySelector("#card-layer");
   const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const places = document.querySelector("#places");
@@ -54,11 +54,11 @@ try {
     function tick(now) {
       // A queued animation frame can carry a timestamp just before selection.
       const elapsed=Math.max(0,now-start);
-      const progress = reducedMotion ? 1 : Math.min(1,elapsed/(journeySeconds*1000));
+      const progress = reducedMotion ? 1 : loopJourneyProgress(elapsed/1000);
       const phase=view.id==="overview"?(reducedMotion?0:(elapsed/20000)%1):journeyPhase(progress);
       renderExportFrame(view.id,phase);
       if(view.id!=="overview" && progress>=approachEnd && !linksShown) { showLinks(view); linksShown=true; }
-      if(!reducedMotion && (view.id==="overview"||progress<1)) animation=requestAnimationFrame(tick);
+      if(!reducedMotion) animation=requestAnimationFrame(tick);
     }
     if(view.id==="overview") showLinks(view);
     animation=requestAnimationFrame(tick);

@@ -5,7 +5,7 @@ import { siteTitle } from "../dist/catalogue.js";
 import { views, mapLabels } from "../examples/island-profile-spike/views.js";
 import { drawMapLabels } from "../examples/island-profile-spike/labels.js";
 import { cardLayout, cardMarkup } from "../examples/island-profile-spike/card.js";
-import { journeyPhase, approachEnd, returnStart } from "../examples/island-profile-spike/journey.js";
+import { journeyPhase, approachEnd, returnStart, loopJourneyProgress, cycleSeconds, journeySeconds, cardHoldSeconds } from "../examples/island-profile-spike/journey.js";
 import { escapeHtml } from "../examples/island-profile-spike/output.mjs";
 
 function drawingContext() {
@@ -68,4 +68,14 @@ test("labels share website naming and generated markup escapes content", () => {
   assert.equal(siteTitle([{ title: "Long", mapTitle: "Short" }], { name: "Room" }), "Short");
   assert.equal(siteTitle([{ title: "One" }, { title: "Two" }], { name: "Room" }), "Room");
   assert.equal(escapeHtml('<a href="x">&'), "&lt;a href=&quot;x&quot;&gt;&amp;");
+});
+
+test("journeys hold for fifteen seconds and replay instead of remaining finished", () => {
+  assert.equal(cardHoldSeconds, 15);
+  assert.equal(loopJourneyProgress(-1), 0);
+  for (const time of [journeySeconds, journeySeconds + 7, journeySeconds + cardHoldSeconds]) {
+    assert.equal(loopJourneyProgress(time), 1);
+  }
+  assert.equal(loopJourneyProgress(cycleSeconds), 0);
+  assert.ok(Math.abs(loopJourneyProgress(cycleSeconds + 1.6) - approachEnd) < 1e-10);
 });

@@ -1,3 +1,4 @@
+import { journeySeconds, cardHoldSeconds, cycleSeconds, cyclePercent } from "./journey.js";
 export const escapeHtml = value => String(value).replace(/[&<>"']/g, char => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[char]);
 
 export function cardLayout(view, width = 600, height = 360) {
@@ -25,11 +26,12 @@ export function cardMarkup(view, width = 600, height = 360) {
 }
 
 export const cardStyles = `
-.popup{font-family:system-ui,sans-serif;transform:var(--card-end);opacity:1;animation:card-arrival 4.8s linear 1 both}
+.popup{font-family:system-ui,sans-serif;transform:var(--card-end);opacity:1;animation:card-arrival ${cycleSeconds}s linear infinite both}
 @keyframes card-arrival{
-0%,33.33333%{opacity:0;transform:var(--card-start);animation-timing-function:ease-out}
-40%{opacity:1;transform:var(--card-start);animation-timing-function:ease-in-out}
-60%,100%{opacity:1;transform:var(--card-end)}
+0%,${cyclePercent(journeySeconds / 3)}{opacity:0;transform:var(--card-start);animation-timing-function:ease-out}
+${cyclePercent(journeySeconds * .4)}{opacity:1;transform:var(--card-start);animation-timing-function:ease-in-out}
+${cyclePercent(journeySeconds * .6)},${cyclePercent(journeySeconds + cardHoldSeconds)}{opacity:1;transform:var(--card-end)}
+100%{opacity:0;transform:var(--card-end)}
 }
 @media(prefers-reduced-motion:reduce){.popup{animation:none}}
 `;
