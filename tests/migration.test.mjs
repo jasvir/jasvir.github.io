@@ -17,5 +17,6 @@ test("the deployment is opt-in, restricted to main, and uploads only dist", asyn
   assert.equal(workflow.split(gate).length - 1, 2);
   assert.match(workflow, /needs: build/);
   assert.match(workflow, /path: dist\n/);
-  assert.match(workflow, /run: node --test tests\/\*\.test\.mjs/);
+  assert.match(workflow, /npm ci --ignore-scripts/);
+  assert.match(workflow, /npm test/);
 });

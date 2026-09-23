@@ -31,9 +31,11 @@ It supports the viewer's reduced-motion preference. Scene time is frozen in this
 first prototype, so the camera moves while the train, boat, and people hold still.
 
 To rebuild: run `node examples/island-profile-spike/serve.mjs`, open the printed
-local address, and press **Capture both views**. The scene is adapted in memory;
-the files under `dist/` are not changed. Generated dimensions and sizes are recorded
+local address, and press **Capture both views**. The capture tool imports the same
+scene factory and camera presets as the website; it does not rewrite its source.
+Generated dimensions and sizes are recorded
 in `manifest.json`. The full-site links are destinations for the planned rollout;
-the current website repository still needs the island migration.
+the website migration and shared-source refactor are prepared on review branches,
+but live deployment has not been switched.
 
 See [the test findings](FINDINGS.md) for compatibility, file size, and limitations.

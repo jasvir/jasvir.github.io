@@ -1,5 +1,11 @@
 # Step 1: README export feasibility
 
+Historical step-1 results are preserved below. During step 3, the capture adapter
+was changed to import the shared scene API directly, and the fixture was
+regenerated with all objects frozen consistently at scene time 7. Current sizes
+and the shared-module fingerprint are in `manifest.json`; the original table
+below records the first prototype. See [the shared scene API](../../docs/shared-scene.md).
+
 Tested on 23 September 2026 in the Codex in-app browser, using the actual
 GitHub-rendered README on the `codex/island-profile-export-spike` branch.
 Neither the live profile README nor the website was replaced.

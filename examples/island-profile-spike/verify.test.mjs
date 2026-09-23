@@ -8,7 +8,7 @@ const svg = await readFile(new URL("./island.svg", import.meta.url), "utf8");
 const manifest = JSON.parse(await readFile(new URL("./manifest.json", import.meta.url)));
 const readme = await readFile(new URL("./README.md", import.meta.url), "utf8");
 
-test("export provenance matches the unchanged island source", async () => {
+test("export provenance matches the shared scene source", async () => {
   const sources = await Promise.all(manifest.sourceFiles.map(file => readFile(new URL(`../../dist/${file}`, import.meta.url))));
   assert.equal(createHash("sha256").update(Buffer.concat(sources)).digest("hex"), manifest.sourceHash);
   assert.ok(svg.includes(manifest.sourceHash));

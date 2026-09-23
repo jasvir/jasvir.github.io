@@ -13,22 +13,10 @@ const config = {
   width: 600, height: 360, columns: 12, quality: 0.68, compensationPixels: 40,
   views: [{ id: "overview", frames: 96 }, { id: "library", frames: 32 }],
 };
-const sourceFiles = ["script.js", "island-layout.js", "coastlines.js"];
+const sourceFiles = ["island-layout.js", "coastlines.js", ...["palette", "primitives", "materials", "models", "create-island-scene", "animation", "camera-presets", "camera", "renderer"].map(name => `scene/${name}.js`)];
 const sources = await Promise.all(sourceFiles.map(file => readFile(resolve(root, "dist", file))));
 config.sourceHash = createHash("sha256").update(Buffer.concat(sources)).digest("hex");
 await mkdir(cache, { recursive: true });
-
-function replaceOnce(source, needle, replacement) {
-  if (source.split(needle).length !== 2) throw new Error(`Capture adapter expected one occurrence of ${needle}`);
-  return source.replace(needle, replacement);
-}
-let sceneSource = sources[0].toString();
-sceneSource = replaceOnce(sceneSource, 'import { openSite } from "./content-view.js";', "function openSite() {}");
-sceneSource = replaceOnce(sceneSource, 'from "./coastlines.js"', 'from "/dist/coastlines.js"');
-sceneSource = replaceOnce(sceneSource, 'from "./island-layout.js"', 'from "/dist/island-layout.js"');
-sceneSource = replaceOnce(sceneSource, "new ResizeObserver(resizeRenderer).observe(stage);", "// Export viewport is fixed.");
-sceneSource = replaceOnce(sceneSource, "\nanimate();\n", "\n// The capture page drives frames explicitly.\n");
-sceneSource += "\n" + await readFile(resolve(directory, "capture-adapter.js"), "utf8");
 
 function position(index) {
   return `translate(${-(index % config.columns) * config.width}px, ${-Math.floor(index / config.columns) * config.height}px)`;
@@ -97,7 +85,6 @@ const server = createServer(async (request, response) => {
     }
     response.setHeader("Cache-Control", "no-store");
     if (url.pathname === "/capture/config") { response.setHeader("Content-Type", "application/json"); response.end(JSON.stringify(config)); return; }
-    if (url.pathname === "/capture/scene.js") { response.setHeader("Content-Type", "text/javascript"); response.end(sceneSource); return; }
     const path = resolve(root, "." + decodeURIComponent(url.pathname === "/" ? "/examples/island-profile-spike/capture.html" : url.pathname));
     if (!path.startsWith(root + sep) || path.includes(sep + ".git" + sep)) { response.writeHead(403).end(); return; }
     const content = await readFile(path);

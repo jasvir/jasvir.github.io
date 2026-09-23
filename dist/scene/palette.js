@@ -1,0 +1,17 @@
+export const palette = {
+  ink: 0x21383a,
+  magenta: 0xd00dad,
+  lavender: 0xdec0de,
+  mint: 0xc0ffee,
+  leaf: 0xbada55,
+  peach: 0xfacade,
+  paper: 0xfffdf8,
+  grass: 0x8fbe62,
+  grassDark: 0x5f8f55,
+  rock: 0x9b968b,
+  rockDark: 0x77746e,
+  wood: 0x8c624d,
+  rail: 0x403c3b,
+  water: 0x79dbe0,
+  cream: 0xf4ead8,
+};
