@@ -45,7 +45,9 @@ try {
     places.querySelectorAll("button").forEach(button => button.setAttribute("aria-pressed",String(button.dataset.view===view.id)));
     const start=performance.now();
     function tick(now) {
-      const phase=view.id==="overview"?((now-start)/20000)%1:Math.min(1,(now-start)/1600);
+      // A queued animation frame can carry a timestamp just before selection.
+      const elapsed=Math.max(0,now-start);
+      const phase=view.id==="overview"?(elapsed/20000)%1:Math.min(1,elapsed/1600);
       renderExportFrame(view.id,phase);
       if(view.id==="overview"||phase<1) animation=requestAnimationFrame(tick);
       else showLinks(view);
