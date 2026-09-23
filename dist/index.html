@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Jasvir Nagra's island of software security notes, programming-language experiments, and other curious projects."
+    />
+    <meta name="theme-color" content="#f7fbfb" />
+    <title>Jasvir Nagra — a little island of odd ideas</title>
+    <link rel="stylesheet" href="./styles.css?v=island-catalogue-1" />
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://cdn.jsdelivr.net/npm/three@0.167.1/build/three.module.js",
+          "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.167.1/examples/jsm/"
+        }
+      }
+    </script>
+    <script type="module" src="./content-view.js"></script>
+    <script type="module" src="./script.js?v=island-catalogue-1"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#projects">Skip to the project directory</a>
+
+    <header class="site-header">
+      <a class="identity" href="#top" aria-label="Jasvir Nagra, back to the island">
+        <span class="identity-mark" aria-hidden="true">JN</span>
+        <span>
+          <strong>Jasvir Nagra</strong>
+          <small>odd ideas, local service</small>
+        </span>
+      </a>
+
+      <nav class="primary-nav" aria-label="Main navigation">
+        <button type="button" data-open-site="home" aria-haspopup="dialog">About Me</button>
+        <a href="https://www.recursiverhymes.com/" target="_blank" rel="noreferrer">
+          Recursive Rhymes
+        </a>
+        <a href="https://www.youtube.com/@jasvirnagra" target="_blank" rel="noreferrer">YouTube</a>
+      </nav>
+    </header>
+
+    <main id="top">
+      <section class="island-hero" aria-labelledby="intro-title">
+        <div class="intro-card">
+          <p class="kicker"><span aria-hidden="true">✦</span> Welcome aboard</p>
+          <h1 id="intro-title">Jasvir Nagra</h1>
+          <p>
+            A small renaissance collection of security notes, programming-language experiments,
+            whimsical ideas and projects that seemed worth following for a while.
+          </p>
+          <p>Pick a spot to look around.</p>
+
+          <p class="island-hint">
+            <span class="hint-dot" aria-hidden="true"></span>
+            Drag to orbit · wheel or pinch to zoom · the signs open.
+          </p>
+        </div>
+
+        <div class="island-scroll" id="island" aria-label="Interactive three-dimensional project archipelago">
+          <figure class="island-stage" id="island-stage">
+            <canvas
+              id="island-canvas"
+              aria-label="Rotatable and zoomable Fiji-inspired archipelago with scattered islets, a railway over a stone arch bridge and through an open mountain tunnel, a winding river, an island-hopping aeroplane, a sailing boat, and project buildings."
+            ></canvas>
+
+            <nav class="social-badges" aria-label="Social profiles">
+              <a href="https://github.com/jasvir" target="_blank" rel="noreferrer" aria-label="GitHub" title="GitHub">
+                <!-- Official Primer Octicons mark-github-16; see THIRD_PARTY_NOTICES.txt. -->
+                <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false" fill="currentColor"><path d="M6.766 11.328c-2.063-.25-3.516-1.734-3.516-3.656 0-.781.281-1.625.75-2.188-.203-.515-.172-1.609.063-2.062.625-.078 1.468.25 1.968.703.594-.187 1.219-.281 1.985-.281.765 0 1.39.094 1.953.265.484-.437 1.344-.765 1.969-.687.218.422.25 1.515.046 2.047.5.593.766 1.39.766 2.203 0 1.922-1.453 3.375-3.547 3.64.531.344.89 1.094.89 1.954v1.625c0 .468.391.734.86.547C13.781 14.359 16 11.53 16 8.03 16 3.61 12.406 0 7.984 0 3.563 0 0 3.61 0 8.031a7.88 7.88 0 0 0 5.172 7.422c.422.156.828-.125.828-.547v-1.25c-.219.094-.5.156-.75.156-1.031 0-1.64-.562-2.078-1.609-.172-.422-.36-.672-.719-.719-.187-.015-.25-.093-.25-.187 0-.188.313-.328.625-.328.453 0 .844.281 1.25.86.313.452.64.655 1.031.655s.641-.14 1-.5c.266-.265.47-.5.657-.656"/></svg>
+              </a>
+              <a href="https://www.linkedin.com/in/jasvirnagra/" target="_blank" rel="noreferrer" aria-label="LinkedIn" title="LinkedIn"><span aria-hidden="true">in</span></a>
+              <a href="https://x.com/jasvir" target="_blank" rel="noreferrer" aria-label="X" title="X"><span aria-hidden="true">𝕏</span></a>
+              <a href="https://bsky.app/profile/jasvir.bsky.social" target="_blank" rel="noreferrer" aria-label="Bluesky" title="Bluesky">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 10C9 5 3 1 3 6c0 5 3 7 7 6-6 0-5 7-1 6 2-1 3-4 3-4s1 3 3 4c4 1 5-6-1-6 4 1 7-1 7-6 0-5-6-1-9 4Z" fill="currentColor"/></svg>
+              </a>
+            </nav>
+
+            <div class="scene-loader" id="scene-loader" role="status" aria-live="polite">
+              <span aria-hidden="true"></span>
+              Building the island…
+            </div>
+
+            <div class="scene-label-layer" aria-label="Places and project buildings"></div>
+
+            <nav class="island-controls" aria-label="Archipelago controls">
+              <button id="motion-toggle" type="button" aria-pressed="false" aria-label="Pause motion" title="Pause motion"><span aria-hidden="true">Ⅱ</span></button>
+              <button id="zoom-out" type="button" aria-label="Zoom out" title="Zoom out"><span aria-hidden="true">−</span></button>
+              <button id="zoom-in" type="button" aria-label="Zoom in" title="Zoom in"><span aria-hidden="true">+</span></button>
+              <a href="#projects" aria-label="Go to the island directory" title="Island directory"><span aria-hidden="true">↓</span></a>
+            </nav>
+          </figure>
+        </div>
+
+      </section>
+
+      <section class="project-directory" id="projects" aria-labelledby="projects-title">
+        <header class="directory-heading">
+          <div>
+            <p class="kicker">Island directory</p>
+            <h2 id="projects-title">Things to explore</h2>
+          </div>
+          <p>
+            The buildings hold the longer tour. These are the quick departures if you already know
+            where you’re going.
+          </p>
+        </header>
+
+        <div class="station-board"></div>
+        <noscript><p>Turn on JavaScript to explore the directory, or <a href="https://github.com/jasvir">browse my projects on GitHub</a>.</p></noscript>
+
+        <aside class="construction-note">
+          <span class="hard-hat" aria-hidden="true">⌁</span>
+          <div>
+            <strong>The rest of the archipelago is still being argued with.</strong>
+            <p>Fresh foundations, loose sketches, and at least one cone nobody remembers placing.</p>
+          </div>
+        </aside>
+      </section>
+    </main>
+
+    <dialog id="project-dialog" aria-labelledby="dialog-title">
+      <div class="dialog-sheet">
+        <button class="dialog-close" type="button" aria-label="Close details">×</button>
+        <div class="dialog-ticket">
+          <span id="dialog-icon" aria-hidden="true">⌂</span>
+          <span><small id="dialog-district">Island district</small><strong id="dialog-stop">Stop 01</strong></span>
+        </div>
+        <p class="dialog-type" id="dialog-type">Reading room</p>
+        <h2 id="dialog-title">Project title</h2>
+        <p class="dialog-lede" id="dialog-lede"></p>
+
+        <div class="dialog-details">
+          <section>
+            <h3>The question</h3>
+            <p id="dialog-question"></p>
+          </section>
+          <section>
+            <h3>What’s inside</h3>
+            <p id="dialog-work"></p>
+          </section>
+        </div>
+
+        <dl class="dialog-facts">
+          <div><dt>Open as</dt><dd id="dialog-mode"></dd></div>
+          <div><dt>On the shelves</dt><dd id="dialog-signal"></dd></div>
+        </dl>
+
+        <div class="dialog-actions"></div>
+        <nav class="dialog-recent" aria-label="Recent writing" hidden>
+          <h3>Latest posts</h3>
+          <ol></ol>
+        </nav>
+        <nav class="dialog-shelf" aria-label="More from this building" hidden>
+          <h3>Also in this building</h3>
+          <div class="shelf-entries"></div>
+        </nav>
+      </div>
+    </dialog>
+  </body>
+</html>

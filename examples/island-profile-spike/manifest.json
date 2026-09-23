@@ -1,0 +1,27 @@
+{
+  "sourceHash": "e09396f61da960dcf3b7de2fc4b3cdfa3594afa5378d421566130d7f13c19b3e",
+  "sourceFiles": [
+    "script.js",
+    "island-layout.js",
+    "coastlines.js"
+  ],
+  "width": 600,
+  "height": 400,
+  "svgBytes": 5065107,
+  "gzipBytes": 3821140,
+  "frames": 128,
+  "views": [
+    {
+      "id": "overview",
+      "frames": 96,
+      "atlasBytes": 2915914
+    },
+    {
+      "id": "library",
+      "frames": 32,
+      "atlasBytes": 876258
+    }
+  ],
+  "sceneTime": 7,
+  "compensationPixels": 40
+}

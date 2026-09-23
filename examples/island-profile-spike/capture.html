@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Island profile export — capture</title>
+<style>
+  body { margin: 32px auto; max-width: 900px; padding: 0 24px; font: 16px/1.5 system-ui; color: #21383a; background: #fafafa; }
+  button, a { margin-right: 12px; }
+  button { padding: 8px 16px; cursor: pointer; }
+  #island-stage { width: 600px; height: 360px; }
+  canvas { width: 600px; height: 360px; }
+  #status { min-height: 48px; }
+</style>
+<script type="importmap">
+{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.167.1/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.167.1/examples/jsm/"}}
+</script>
+<h1>Island profile export</h1>
+<p>Captures the existing island scene into a CSS-only SVG. The source website is unchanged.</p>
+<button id="capture" disabled>Capture both views</button>
+<button id="overview" disabled>Preview overview</button>
+<button id="library" disabled>Preview library</button>
+<a href="/examples/island-profile-spike/preview.html">Open README preview</a>
+<p id="status" role="status">Loading the original scene…</p>
+<div id="island-stage"><canvas id="island-canvas"></canvas></div>
+<div hidden>
+  <div id="scene-loader"></div>
+  <button id="motion-toggle"><span></span></button>
+  <button id="zoom-in"></button><button id="zoom-out"></button>
+</div>
+<script type="module">
+  const status = document.querySelector("#status");
+  const buttons = [...document.querySelectorAll("body > button")];
+  try {
+    const { renderExportFrame } = await import("/capture/scene.js");
+    const config = await fetch("/capture/config").then(r => r.json());
+    status.textContent = `Ready. Source ${config.sourceHash.slice(0, 12)}. ${config.width} × ${config.height}px.`;
+    buttons.forEach(button => button.disabled = false);
+    document.querySelector("#overview").onclick = () => renderExportFrame("overview", 0);
+    document.querySelector("#library").onclick = () => renderExportFrame("library", 1);
+    document.querySelector("#capture").onclick = async () => {
+      buttons.forEach(button => button.disabled = true);
+      try {
+        for (const view of config.views) {
+          const atlas = document.createElement("canvas");
+          atlas.width = config.width * config.columns;
+          atlas.height = config.height * Math.ceil(view.frames / config.columns);
+          const context = atlas.getContext("2d");
+          for (let index = 0; index < view.frames; index++) {
+            const phase = index / (view.id === "overview" ? view.frames : view.frames - 1);
+            const frame = renderExportFrame(view.id, phase);
+            context.drawImage(frame, (index % config.columns) * config.width, Math.floor(index / config.columns) * config.height);
+            status.textContent = `Capturing ${view.id}: ${index + 1}/${view.frames}`;
+            await new Promise(requestAnimationFrame);
+          }
+          const blob = await new Promise(resolve => atlas.toBlob(resolve, "image/webp", config.quality));
+          if (!blob || blob.type !== "image/webp") throw new Error("WebP encoding unavailable");
+          const response = await fetch(`/capture/atlas/${view.id}`, { method: "POST", headers: { "Content-Type": "image/webp" }, body: blob });
+          if (!response.ok) throw new Error(await response.text());
+          atlas.width = atlas.height = 1;
+        }
+        const response = await fetch("/capture/build", { method: "POST" });
+        if (!response.ok) throw new Error(await response.text());
+        const result = await response.json();
+        status.textContent = `Export complete: ${(result.svgBytes / 1048576).toFixed(2)} MiB SVG; ${result.frames} frames. Open README preview to test.`;
+      } catch (error) {
+        status.textContent = `Export failed: ${error.message}`;
+      } finally {
+        buttons.forEach(button => button.disabled = false);
+      }
+    };
+  } catch (error) {
+    status.textContent = `Scene failed to load: ${error.message}`;
+  }
+</script>
+</html>

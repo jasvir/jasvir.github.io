@@ -1,0 +1,50 @@
+name: Deploy island to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+  schedule:
+    - cron: "23 6,18 * * *"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: island-pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    # Opt-in cutover gate. A migration merge must not replace the old site.
+    if: github.ref == 'refs/heads/main' && vars.ISLAND_PAGES_ENABLED == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Refresh writing previews (saved snapshot is the fallback)
+        run: node scripts/refresh-writing-posts.mjs
+      - name: Validate before publishing
+        run: node --test tests/*.test.mjs examples/island-profile-spike/verify.test.mjs
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+      - name: Upload only the static website
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: dist
+  deploy:
+    needs: build
+    if: github.ref == 'refs/heads/main' && vars.ISLAND_PAGES_ENABLED == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4

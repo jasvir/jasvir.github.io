@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Island profile — CSS-only preview</title>
+<style>
+  :root { color-scheme: light dark; }
+  body { max-width: 860px; margin: 32px auto; padding: 0 24px; font: 16px/1.5 system-ui; }
+  details { margin: 0 0 16px; }
+  summary { cursor: pointer; line-height: 24px; }
+  p { margin: 0 0 16px; }
+  img { max-width: 100%; height: auto; }
+  a { color: #b1269b; }
+</style>
+<h1>Around the islands</h1>
+<p>Pick a view. These are SVG images with embedded CSS animation; this page has no JavaScript.</p>
+<details name="island-profile-view" open>
+  <summary>🗺️ Around the islands</summary>
+  <p align="right"><img src="./island.svg#overview" width="600" alt="Rotating overview"></p>
+</details>
+<details name="island-profile-view">
+  <summary>📚 At the library · SecretSeal</summary>
+  <p align="right"><img src="./island.svg#library" width="600" alt="Library camera approach"></p>
+</details>
+<p><a href="./island.svg#overview">Open overview SVG</a> · <a href="./island.svg#library">Open library SVG</a> · <a href="./README.md">README source</a></p>
+</html>
