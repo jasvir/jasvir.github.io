@@ -35,7 +35,7 @@ does not deploy or synchronize repositories.
 - `profile/config.js`: ordered highlight IDs, dimensions, frame counts, quality,
   fixed scene time, alignment spacing, and size budgets.
 - `dist/content.js`: all selected titles, descriptions and links, including the
-  About Me paragraph shown inside the expanded sections.
+  About Me paragraph shown in the SVG card.
 - `dist/island-layout.js`, `dist/coastlines.js`, `dist/scene/`: the same island,
   positions, materials, textures and camera poses used by the interactive site.
 - `profile/render.js`: shared capture host for the exporter and old prototype.
@@ -54,10 +54,10 @@ unpublished selections fail rather than silently disappearing.
 - `island.svg`: labelled rotating overview.
 - `island-two-dozen.svg`, `island-secretseal.svg`, `island-trapdoor.svg`,
   `island-homepage.svg`: looping approaches, returns and vector cards.
-- `README.md`: ready-to-copy relative image references, native details sections,
-  descriptions and actual catalogue links. All visible content stays inside the
-  details sections; images and summary labels share a left edge. About Me has no
-  external card link.
+- `README.md`: full-width relative image references and native details sections.
+  Each body contains only its map and one `Expand...` link to the corresponding
+  full-site destination (including About Me). All visible content stays inside
+  the details sections; images and summary labels share a left edge.
 - `preview.html`: CSS-only local sidebar preview of those exact SVGs.
 - `content.json`: selected content and saved label anchors.
 - `manifest.json`: source hashes, source revision, browser version, configuration,
@@ -85,9 +85,10 @@ reuses the approach atlas in reverse. Reduced motion shows the static overview
 and final card. Vehicles and water are frozen at the configured scene time.
 
 Reopening a details section may resume mid-cycle rather than restart. GitHub
-uses stacked summaries rather than the custom preview sidebar. The 40px artwork
-compensation is calibrated for 600px images and unwrapped summaries; narrow
-layouts may drift. These limitations are not hidden with preview JavaScript.
+uses stacked summaries rather than the custom preview sidebar. Production SVGs
+have no artwork-offset spacer: each is a 600 × 360 view displayed at 100% of the
+available README width. The image sits directly below its summary; native GitHub
+details cannot reproduce the preview's side-by-side layout without custom CSS.
 
 Rendering uses fixed cameras, seeded scene textures, fixed time and a pinned
 browser/dependency version. Source hashes are authoritative; a revision may have

@@ -19,14 +19,14 @@ test("profile selects overview and four highlights with About Me last", () => {
   assert.deepEqual(content.labels.find(label => label.site === "library").point, islandLayout.sites.library.label);
 });
 
-test("catalogue edits flow into descriptions, cards and README without duplicate text", () => {
+test("catalogue edits flow into cards while README uses full-island links only", () => {
   const updated = structuredClone(entries);
   updated.secretseal.summary = 'New <note> & "ideas"';
   updated.secretseal.links = [{ label: "New guide", url: "https://example.com/new?a=1&b=2" }];
   const content = profileContent(profileConfig, updated);
   const readme = profileReadme(profileConfig, content);
-  assert.match(readme, /New &lt;note&gt; &amp; &quot;ideas&quot;/);
-  assert.match(readme, /https:\/\/example.com\/new\?a=1&amp;b=2/);
+  assert.doesNotMatch(readme, /New &lt;note&gt;|example.com/);
+  assert.match(readme, /https:\/\/jasvir.github.io\/#project-secretseal/);
   const view = content.views.find(view => view.id === "secretseal");
   const svg = svgFor(view, Buffer.from("fixture"), { ...profileConfig, views: content.views }, 2);
   assert.match(svg, /New &lt;note&gt; &amp; &quot;ideas&quot;/);
@@ -41,7 +41,7 @@ test("invalid, duplicate and unpublished highlights fail before rendering", () =
   assert.throws(() => profileContent({ ...profileConfig, highlights: [] }), /distinct/);
 });
 
-test("README has only configured sections and catalogue links; About Me is self-contained", () => {
+test("README has full-width maps and only an Expand link in each configured section", () => {
   const content = profileContent();
   const readme = profileReadme(profileConfig, content);
   assert.equal((readme.match(/<details /g) || []).length, 5);
@@ -50,11 +50,27 @@ test("README has only configured sections and catalogue links; About Me is self-
   assert.equal((readme.match(/<p align="left"><img/g) || []).length, 5);
   assert.doesNotMatch(readme, /align="right"/);
   assert.match(readme, /src="\.\/island-homepage.svg"/);
-  const about = readme.split("<summary>About Me</summary>")[1].split("</details>")[0];
-  assert.doesNotMatch(about, /<a /);
-  const previewAbout = profilePreview(profileConfig, content).split("<summary>About Me</summary>")[1].split("</details>")[0];
-  assert.doesNotMatch(previewAbout, /<a /);
+  assert.equal((readme.match(/width="100%"/g) || []).length, 5);
+  assert.equal((readme.match(/>Expand\.\.\.<\/a>/g) || []).length, 5);
+  for (const view of content.views) {
+    const section = readme.split(`<summary>${view.title}</summary>`)[1].split("</details>")[0];
+    assert.match(section, new RegExp(`<a href="${view.href.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}">Expand\\.\\.\\.</a>`));
+    assert.equal((section.match(/<p>/g) || []).length, 1);
+  }
+  const preview = profilePreview(profileConfig, content);
+  assert.equal((preview.match(/>Expand\.\.\.<\/a>/g) || []).length, 5);
+  assert.ok(!preview.includes(content.introduction.description));
   assert.ok(readme.indexOf("<summary>About Me") > readme.indexOf("<summary>Trapdoor VMs"));
+});
+
+test("production SVGs have no alignment spacer at any destination", () => {
+  const content = profileContent();
+  assert.equal(profileConfig.compensationPixels, 0);
+  content.views.forEach((view, index) => {
+    const svg = svgFor(view, Buffer.from("fixture"), { ...profileConfig, views: content.views }, index);
+    assert.match(svg, /viewBox="0 0 600 360"/);
+    assert.ok(svg.includes(`id="${view.id}" transform="translate(0 0)"`));
+  });
 });
 
 test("export configuration and embedded-resource checks reject unsafe or oversized input", () => {
