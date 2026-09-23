@@ -4,9 +4,12 @@
   "type": "module",
   "scripts": {
     "test": "node --test tests/*.test.mjs examples/island-profile-spike/verify.test.mjs",
-    "capture": "node examples/island-profile-spike/serve.mjs"
+    "capture": "node examples/island-profile-spike/serve.mjs",
+    "build:profile": "node scripts/export-profile.mjs",
+    "verify:profile": "node scripts/export-profile.mjs --verify"
   },
   "devDependencies": {
+    "playwright": "1.56.1",
     "three": "0.167.1"
   }
 }

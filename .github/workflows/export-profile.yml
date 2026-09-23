@@ -1,0 +1,28 @@
+name: Build profile export
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm ci --ignore-scripts
+      - run: npx playwright install --with-deps chromium
+      - run: npm test
+      - run: npm run build:profile
+      - run: npm run verify:profile
+      - uses: actions/upload-artifact@v4
+        with:
+          name: island-profile
+          path: build/profile/
+          if-no-files-found: error
+          retention-days: 14

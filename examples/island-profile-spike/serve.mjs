@@ -17,6 +17,7 @@ const config = {
 };
 const sourceFiles = ["island-layout.js", "coastlines.js", "content.js", "catalogue.js", "../examples/island-profile-spike/views.js", "../examples/island-profile-spike/labels.js", "../examples/island-profile-spike/capture-adapter.js", ...["palette", "primitives", "materials", "models", "create-island-scene", "animation", "camera-presets", "camera", "renderer"].map(name => `scene/${name}.js`)];
 sourceFiles.push("../examples/island-profile-spike/card.js", "../examples/island-profile-spike/journey.js");
+sourceFiles.push(...["card.js", "journey.js", "labels.js", "render.js"].map(file => `../profile/${file}`));
 const sources = await Promise.all(sourceFiles.map(file => readFile(resolve(root, "dist", file))));
 config.sourceHash = createHash("sha256").update(Buffer.concat(sources)).digest("hex");
 await mkdir(cache, { recursive: true });

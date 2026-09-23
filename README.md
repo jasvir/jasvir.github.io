@@ -42,6 +42,14 @@ npm test
 `node scripts/refresh-writing-posts.mjs` refreshes writing previews from the public
 RSS feed. The checked-in snapshot is retained if the feed is unavailable.
 
+## Profile exporter
+
+Run `npm run build:profile` to generate the overview and four configured highlight
+views, their descriptions, links, README and preview in `build/profile/`.
+Run `npm run verify:profile` to check source freshness and output integrity.
+See [setup, output contract and limitations](docs/profile-exporter.md).
+The build does not publish or modify the profile repository.
+
 ## Profile export experiment
 
 [`examples/island-profile-spike/`](examples/island-profile-spike/) retains the

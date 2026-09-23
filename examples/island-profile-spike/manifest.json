@@ -1,5 +1,5 @@
 {
-  "sourceHash": "6df1f4f5c3737f00b34bcd4dd05da4ea858b33f8d25963a7914fcb13bcd6ab98",
+  "sourceHash": "cec881f7a172e7eb6e5c8fd92b56dc411f69a8ddfe9f201342d58ad4d8c52cbe",
   "sourceFiles": [
     "island-layout.js",
     "coastlines.js",
@@ -18,7 +18,11 @@
     "scene/camera.js",
     "scene/renderer.js",
     "../examples/island-profile-spike/card.js",
-    "../examples/island-profile-spike/journey.js"
+    "../examples/island-profile-spike/journey.js",
+    "../profile/card.js",
+    "../profile/journey.js",
+    "../profile/labels.js",
+    "../profile/render.js"
   ],
   "width": 600,
   "height": 520,
@@ -32,7 +36,7 @@
       "file": "island.svg",
       "atlasBytes": 3274782,
       "svgBytes": 4371778,
-      "gzipBytes": 3300707
+      "gzipBytes": 3300708
     },
     {
       "id": "two-dozen",
@@ -41,7 +45,7 @@
       "file": "island-two-dozen.svg",
       "atlasBytes": 964526,
       "svgBytes": 1290813,
-      "gzipBytes": 972092
+      "gzipBytes": 972093
     },
     {
       "id": "homepage",
@@ -50,7 +54,7 @@
       "file": "island-homepage.svg",
       "atlasBytes": 981342,
       "svgBytes": 1313649,
-      "gzipBytes": 989835
+      "gzipBytes": 989836
     },
     {
       "id": "secretseal",

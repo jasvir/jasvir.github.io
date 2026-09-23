@@ -106,7 +106,8 @@ test("default camera and export presets share the saved layout", () => {
 test("both hosts import the shared scene without rewriting browser source", async () => {
   const read = path => readFile(new URL(`../${path}`, import.meta.url), "utf8");
   const browser = await read("dist/script.js");
-  const capture = await read("examples/island-profile-spike/capture-adapter.js");
+  const capture = await read("profile/render.js");
+  assert.match(await read("examples/island-profile-spike/capture-adapter.js"), /import \{ createProfileRenderer \}/);
   const server = await read("examples/island-profile-spike/serve.mjs");
   for (const host of [browser, capture]) assert.match(host, /import \{ createIslandScene \} from/);
   assert.doesNotMatch(server, /replaceOnce|sceneSource|animate\(\)/);
