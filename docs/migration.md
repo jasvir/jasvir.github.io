@@ -48,6 +48,9 @@ cross-repository profile updates. Those remain later steps in the agreed plan.
 
 - All 23 imported files matched the source byte-for-byte; no island rendering
   or interaction code was edited.
+- After import, the prototype size test was made portable across compressor
+  versions: uncompressed SVG and embedded atlas sizes stay exact, while gzip
+  is tested by round-trip rather than matching the original machine's byte count.
 - Both original root entrypoints matched the website repository baseline.
 - All 18 local checks passed (content/layout, the export fixture, and migration).
 - Local browser smoke test: scene renders, SecretSeal opens with its project
