@@ -1,5 +1,5 @@
 {
-  "sourceHash": "abe34a8af31443181e20b828450b7ca70cb0d829de4f30411dbc328ff52e94f4",
+  "sourceHash": "c20db2bc47687b5bd62a488e3e709a14eb9186f0175f2a39e0e952b406a29e00",
   "sourceFiles": [
     "island-layout.js",
     "coastlines.js",
@@ -16,11 +16,13 @@
     "scene/animation.js",
     "scene/camera-presets.js",
     "scene/camera.js",
-    "scene/renderer.js"
+    "scene/renderer.js",
+    "../examples/island-profile-spike/card.js",
+    "../examples/island-profile-spike/journey.js"
   ],
   "width": 600,
   "height": 520,
-  "svgBytes": 9571551,
+  "svgBytes": 9603885,
   "frames": 224,
   "views": [
     {
@@ -29,48 +31,50 @@
       "frames": 96,
       "file": "island.svg",
       "atlasBytes": 3274782,
-      "svgBytes": 4371770,
-      "gzipBytes": 3300703
+      "svgBytes": 4371778,
+      "gzipBytes": 3300708
     },
     {
       "id": "two-dozen",
       "site": "twoDozen",
       "frames": 32,
       "file": "island-two-dozen.svg",
-      "atlasBytes": 941504,
-      "svgBytes": 1257675,
-      "gzipBytes": 948119
+      "atlasBytes": 964526,
+      "svgBytes": 1290731,
+      "gzipBytes": 972088
     },
     {
       "id": "homepage",
       "site": "home",
       "frames": 32,
       "file": "island-homepage.svg",
-      "atlasBytes": 990306,
-      "svgBytes": 1322892,
-      "gzipBytes": 998022
+      "atlasBytes": 981342,
+      "svgBytes": 1313567,
+      "gzipBytes": 989829
     },
     {
       "id": "secretseal",
       "site": "library",
       "frames": 32,
       "file": "island-secretseal.svg",
-      "atlasBytes": 971134,
-      "svgBytes": 1297188,
-      "gzipBytes": 978686
+      "atlasBytes": 963258,
+      "svgBytes": 1289049,
+      "gzipBytes": 971654
     },
     {
       "id": "trapdoor",
       "site": "research",
       "frames": 32,
       "file": "island-trapdoor.svg",
-      "atlasBytes": 989764,
-      "svgBytes": 1322026,
-      "gzipBytes": 997450
+      "atlasBytes": 1000540,
+      "svgBytes": 1338760,
+      "gzipBytes": 1009133
     }
   ],
   "sceneTime": 7,
   "compensationPixels": 40,
   "labelled": true,
-  "popupAfterApproach": true
+  "popupAfterApproach": true,
+  "commonOverviewReturn": true,
+  "vectorCards": true
 }

@@ -62,7 +62,7 @@ initialization difference is deliberate so still captures have defined positions
 The existing capture fixture freezes **all** motion at time 7. Unlike the first
 prototype, its train and walkers use that same time as the water and journeys.
 The initial two-view fixture has since been extended to the four requested
-destinations, with captured labels and information cards. See
+destinations, with captured labels and separately animated SVG information cards. See
 [profile navigation](profile-navigation.md) for the current output format and
 timing. Production download-size optimization remains separate.
 

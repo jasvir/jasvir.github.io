@@ -2,7 +2,7 @@ import { createIslandScene } from "../../dist/scene/create-island-scene.js";
 import { createIslandRenderer } from "../../dist/scene/renderer.js";
 import { createIslandCamera, cameraPose, applyCameraPose } from "../../dist/scene/camera.js";
 import { mapLabels, views } from "./views.js";
-import { drawMapLabels, drawInfoCard } from "./labels.js";
+import { drawMapLabels } from "./labels.js";
 
 const canvas = document.querySelector("#island-canvas");
 canvas.width = 600;
@@ -31,8 +31,8 @@ export function renderExportFrame(view, phase) {
   renderer.render(island.scene, camera);
   context.clearRect(0, 0, canvas.width, canvas.height);
   context.drawImage(renderCanvas, 0, 0);
-  drawMapLabels(context, camera, mapLabels, canvas.width, canvas.height, site);
-  if (view !== "overview" && phase === 1) drawInfoCard(context, selected, canvas.width, canvas.height);
+  // Identical overview frames at the start and end of every destination.
+  drawMapLabels(context, camera, mapLabels, canvas.width, canvas.height, "overview");
   return canvas;
 }
 

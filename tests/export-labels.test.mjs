@@ -3,7 +3,9 @@ import assert from "node:assert/strict";
 import { createIslandCamera, applyCameraPose, cameraPose } from "../dist/scene/camera.js";
 import { siteTitle } from "../dist/catalogue.js";
 import { views, mapLabels } from "../examples/island-profile-spike/views.js";
-import { drawMapLabels, drawInfoCard } from "../examples/island-profile-spike/labels.js";
+import { drawMapLabels } from "../examples/island-profile-spike/labels.js";
+import { cardLayout, cardMarkup } from "../examples/island-profile-spike/card.js";
+import { journeyPhase, approachEnd, returnStart } from "../examples/island-profile-spike/journey.js";
 import { escapeHtml } from "../examples/island-profile-spike/output.mjs";
 
 function drawingContext() {
@@ -39,11 +41,26 @@ test("each close-up retains its selected label and renders its full card text", 
     applyCameraPose(camera, cameraPose(view.site, 1));
     const placed = drawMapLabels(drawingContext(), camera, mapLabels, 600, 360, view.site);
     assert.ok(placed.some(label => label.site === view.site));
-    const context = drawingContext();
-    drawInfoCard(context, view, 600, 360);
-    assert.equal(context.text[0][0], view.title);
-    assert.equal(context.text.slice(1).map(([text]) => text).join(" "), view.description);
-    assert.ok(context.text.every(([, x, y]) => x >= 0 && y >= 0 && x < 600 && y < 360));
+    const card = cardLayout(view);
+    assert.equal(card.lines.join(" "), view.description);
+    assert.ok(card.x >= 0 && card.y >= 0 && card.x + card.width <= 600 && card.y + card.height <= 360);
+    assert.ok(cardMarkup(view).includes(escapeHtml(view.title)));
+  }
+});
+
+test("each journey approaches, holds for the card, and returns to the identical overview", () => {
+  assert.equal(journeyPhase(0), 0);
+  assert.equal(journeyPhase(approachEnd), 1);
+  assert.equal(journeyPhase(returnStart), 1);
+  assert.equal(journeyPhase(1), 0);
+  assert.equal(journeyPhase(-1), 0);
+  assert.equal(journeyPhase(2), 0);
+  const overview = cameraPose("overview", 0);
+  for (const view of views.slice(1)) {
+    assert.deepEqual(cameraPose(view.site, journeyPhase(0)), overview);
+    assert.deepEqual(cameraPose(view.site, journeyPhase(1)), overview);
+    assert.ok(journeyPhase(.2) > journeyPhase(.1));
+    assert.ok(journeyPhase(.9) < journeyPhase(.8));
   }
 });
 

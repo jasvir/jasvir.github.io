@@ -16,6 +16,7 @@ const config = {
   views,
 };
 const sourceFiles = ["island-layout.js", "coastlines.js", "content.js", "catalogue.js", "../examples/island-profile-spike/views.js", "../examples/island-profile-spike/labels.js", "../examples/island-profile-spike/capture-adapter.js", ...["palette", "primitives", "materials", "models", "create-island-scene", "animation", "camera-presets", "camera", "renderer"].map(name => `scene/${name}.js`)];
+sourceFiles.push("../examples/island-profile-spike/card.js", "../examples/island-profile-spike/journey.js");
 const sources = await Promise.all(sourceFiles.map(file => readFile(resolve(root, "dist", file))));
 config.sourceHash = createHash("sha256").update(Buffer.concat(sources)).digest("hex");
 await mkdir(cache, { recursive: true });
@@ -37,7 +38,7 @@ async function build() {
     svgBytes: outputs.reduce((sum, view) => sum + view.svgBytes, 0),
     frames: outputs.reduce((sum, view) => sum + view.frames, 0),
     views: outputs, sceneTime: 7, compensationPixels: config.compensationPixels,
-    labelled: true, popupAfterApproach: true,
+    labelled: true, popupAfterApproach: true, commonOverviewReturn: true, vectorCards: true,
   };
   await writeFile(resolve(directory, "manifest.json"), JSON.stringify(manifest, null, 2) + "\n");
   return manifest;

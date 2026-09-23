@@ -8,16 +8,17 @@ body{margin:32px auto;max-width:980px;padding:0 24px;font:15px/1.5 system-ui;col
 h1{font:34px Georgia,serif;margin-bottom:8px}a{color:#a3088a}button{font:inherit;cursor:pointer;border:1px solid #d8ded5;border-radius:8px;padding:9px 12px;background:white;color:inherit}
 .toolbar{display:flex;gap:16px;align-items:center;margin:20px 0}.island{display:grid;grid-template-columns:175px minmax(0,600px);gap:20px}nav{display:flex;flex-direction:column;gap:8px}nav button{text-align:left}nav button[aria-pressed=true]{background:#f7e9f5;border-color:#d00dad;color:#96087c}
 canvas{display:block;width:100%;height:auto;border-radius:12px}#read-more{min-height:60px}#status{min-height:24px;font-size:13px;color:#586b66}
+.stage{position:relative}#card-layer{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
 @media(max-width:700px){.island{grid-template-columns:1fr}nav{flex-direction:row;flex-wrap:wrap}.toolbar{flex-wrap:wrap}}
 </style>
 <script type="importmap">
 {"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.167.1/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.167.1/examples/jsm/"}}
 </script>
 <h1>Around the islands</h1>
-<p>Choose a place to zoom in, then see its story. The labels and cards are included in the exported artwork.</p>
+<p>Choose a place. Its card comes forward while the island returns to a shared overview behind it.</p>
 <div class="toolbar"><button id="capture" disabled>Capture all views</button><a href="/examples/island-profile-spike/preview.html">Open CSS-only README preview</a></div>
 <p id="status" role="status">Run <code>npm run capture</code> and open the printed HTTP address to use this page.</p>
-<div class="island"><nav id="places" aria-label="Island places"></nav><section><canvas id="island-canvas" width="600" height="360" aria-label="Labelled project island"></canvas><div id="read-more"></div></section></div>
+<div class="island"><nav id="places" aria-label="Island places"></nav><section><div class="stage"><canvas id="island-canvas" width="600" height="360" aria-label="Labelled project island"></canvas><svg id="card-layer" viewBox="0 0 600 360" aria-hidden="true"></svg></div><div id="read-more"></div></section></div>
 <script type="module">
 const status = document.querySelector("#status");
 const capture = document.querySelector("#capture");
@@ -27,6 +28,10 @@ try {
   if (!response.ok) throw new Error("This page needs the capture server. Run npm run capture.");
   const config = await response.json();
   const { renderExportFrame } = await import("/examples/island-profile-spike/capture-adapter.js");
+  const { cardMarkup, cardStyles } = await import("/examples/island-profile-spike/card.js");
+  const { journeyPhase, journeySeconds, approachEnd } = await import("/examples/island-profile-spike/journey.js");
+  const cardLayer = document.querySelector("#card-layer");
+  const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const places = document.querySelector("#places");
   const more = document.querySelector("#read-more");
   let animation, selected = config.views[0];
@@ -42,15 +47,18 @@ try {
   }
   function select(view) {
     cancelAnimationFrame(animation); selected=view; more.replaceChildren();
+    cardLayer.innerHTML = view.id === "overview" ? "" : `<style>${cardStyles}</style>${cardMarkup(view)}`;
     places.querySelectorAll("button").forEach(button => button.setAttribute("aria-pressed",String(button.dataset.view===view.id)));
     const start=performance.now();
+    let linksShown = false;
     function tick(now) {
       // A queued animation frame can carry a timestamp just before selection.
       const elapsed=Math.max(0,now-start);
-      const phase=view.id==="overview"?(elapsed/20000)%1:Math.min(1,elapsed/1600);
+      const progress = reducedMotion ? 1 : Math.min(1,elapsed/(journeySeconds*1000));
+      const phase=view.id==="overview"?(reducedMotion?0:(elapsed/20000)%1):journeyPhase(progress);
       renderExportFrame(view.id,phase);
-      if(view.id==="overview"||phase<1) animation=requestAnimationFrame(tick);
-      else showLinks(view);
+      if(view.id!=="overview" && progress>=approachEnd && !linksShown) { showLinks(view); linksShown=true; }
+      if(!reducedMotion && (view.id==="overview"||progress<1)) animation=requestAnimationFrame(tick);
     }
     if(view.id==="overview") showLinks(view);
     animation=requestAnimationFrame(tick);

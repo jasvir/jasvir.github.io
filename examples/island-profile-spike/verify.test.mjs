@@ -16,6 +16,8 @@ test("export provenance matches shared scene, content and label renderer", async
   for(const asset of assets) assert.ok(asset.svg.includes(manifest.sourceHash));
   assert.equal(manifest.labelled, true);
   assert.equal(manifest.popupAfterApproach, true);
+  assert.equal(manifest.commonOverviewReturn, true);
+  assert.equal(manifest.vectorCards, true);
 });
 
 test("each destination is a self-contained script-free image", () => {
@@ -34,7 +36,12 @@ test("overview loops, approaches hold the final popup, and readme offsets match 
   assets.forEach((asset,index)=>{
     assert.ok(asset.svg.includes(`translate(0 ${offsetFor(index,config)})`));
     if(asset.id==="overview") assert.match(asset.svg,/20s steps\(1,end\) infinite/);
-    else assert.match(asset.svg,/1\.6s steps\(1,end\) 1 forwards/);
+    else {
+      assert.match(asset.svg,/4\.8s steps\(1,end\) 1 forwards/);
+      assert.match(asset.svg,/100\.00000%\{transform:translate\(0px, 0px\)\}/);
+      assert.match(asset.svg,/<g class="popup"/);
+      assert.match(asset.svg,/<text /);
+    }
   });
 });
 

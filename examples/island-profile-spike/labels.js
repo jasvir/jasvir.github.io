@@ -48,29 +48,3 @@ export function drawMapLabels(context, camera, labels, width, height, selectedSi
   context.restore();
   return placed;
 }
-
-export function drawInfoCard(context, view, width, height) {
-  const cardWidth = 274, x = width - cardWidth - 12;
-  context.save();
-  context.font = "12px system-ui, sans-serif";
-  const lines = [];
-  let line = "";
-  for (const word of view.description.split(/\s+/)) {
-    const next = line ? `${line} ${word}` : word;
-    if (line && context.measureText(next).width > cardWidth - 28) { lines.push(line); line = word; }
-    else line = next;
-  }
-  if (line) lines.push(line);
-  const cardHeight = 48 + lines.length * 16, y = height - cardHeight - 12;
-  context.shadowColor = "rgba(33,56,58,.18)"; context.shadowBlur = 12;
-  context.fillStyle = "rgba(255,253,248,.98)";
-  context.strokeStyle = "#d00dad"; context.lineWidth = 1.2;
-  context.beginPath(); context.roundRect(x, y, cardWidth, cardHeight, 10); context.fill(); context.stroke();
-  context.shadowBlur = 0;
-  context.textBaseline = "top";
-  context.fillStyle = "#a3088a"; context.font = "700 14px system-ui, sans-serif";
-  context.fillText(view.title, x + 14, y + 13);
-  context.fillStyle = "#21383a"; context.font = "12px system-ui, sans-serif";
-  lines.forEach((text, index) => context.fillText(text, x + 14, y + 36 + index * 16));
-  context.restore();
-}

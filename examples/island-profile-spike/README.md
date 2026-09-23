@@ -1,6 +1,6 @@
 # Around the islands
 
-Pick a place to zoom in. Its information card appears after the approach; use the links below the image to read more.
+Pick a place to zoom in. Its card moves to the centre while the island returns to a shared overview behind it. Use the links below to read more.
 
 <details name="island-profile-view" open>
 <summary>Around the islands</summary>
@@ -42,7 +42,7 @@ Pick a place to zoom in. Its information card appears after the approach; use th
 This generated README is a preview, not the live profile. The SVGs contain labels
 and information cards, and play without JavaScript. Each destination has a separate
 asset to avoid making every image decode the entire collection. Reduced motion
-shows the final close-up and information card immediately.
+shows the shared overview and centred information card immediately.
 
 The [local preview](preview.html) arranges these same grouped details as a left
 sidebar. GitHub uses its native stacked details layout; it does not allow the
