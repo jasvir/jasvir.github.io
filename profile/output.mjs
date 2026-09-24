@@ -21,7 +21,7 @@ export function svgFor(view, data, config, index) {
 <desc id="desc">${escapeHtml(view.description)} Zooms to the building, centres its card, then returns the island to a common overview.</desc>
 <metadata>Source SHA-256: ${config.sourceHash}</metadata>
 <style>
-.motion{transform:${position(0)};animation:camera ${overview ? "20s" : `${cycleSeconds}s`} steps(1,end) infinite}
+.motion{transform:${position(0)};animation:camera ${overview ? `${config.overviewSeconds ?? 20}s` : `${cycleSeconds}s`} steps(1,end) infinite}
 @keyframes camera{${keys}}
 @media(prefers-reduced-motion:reduce){.motion{animation:none}}
 ${overview ? "" : cardStyles}
@@ -32,7 +32,6 @@ ${overview ? "" : cardStyles}
 }
 
 function linksFor(view, config = {}) {
-  if (config.expandOnly) return `<a href="${escapeHtml(view.href)}">Expand...</a>`;
   if (config.omitAboutLink && view.id === "homepage" && !view.links?.length) return "";
   return (view.links?.length ? view.links : [{ label: view.id === "overview" ? "Explore the full island" : "About Me on the full island", url: view.href }])
     .map(link => `<a href="${escapeHtml(link.url)}">${escapeHtml(link.label)}</a>`).join(" · ");
@@ -84,8 +83,8 @@ details[open]>summary{background:#f7e9f5;color:#96087c;font-weight:650}section{m
 <main aria-label="Island places">
 ${config.views.map((view, index) => `<details name="island-profile-view" style="--index:${index}"${index === 0 ? " open" : ""}>
 <summary>${escapeHtml(view.title)}</summary><section>
-<div class="viewport" style="--shift:${-offsetFor(index, config) / config.height * 100}%"><img src="./${assetName(view)}#${view.id}" alt="${escapeHtml(view.title)} — labelled island view" width="600"></div>
-${config.expandOnly ? "" : `<p>${escapeHtml(view.description)}</p>`}<p>${linksFor(view, config)}</p>
+${config.linkedImages ? `<a href="${escapeHtml(view.href)}">` : ""}<div class="viewport" style="--shift:${-offsetFor(index, config) / config.height * 100}%"><img src="./${assetName(view)}#${view.id}" alt="${escapeHtml(view.title)} — ${config.linkedImages ? "explore the interactive island" : "labelled island view"}" width="600"></div>${config.linkedImages ? "</a>" : ""}
+${config.linkedImages ? "" : `<p>${escapeHtml(view.description)}</p><p>${linksFor(view, config)}</p>`}
 </section></details>`).join("\n")}
 </main><footer>No JavaScript in this preview. <a href="./README.md">README source</a> · GitHub uses stacked details instead of this sidebar.</footer></html>\n`;
 }

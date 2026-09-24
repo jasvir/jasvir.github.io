@@ -41,24 +41,25 @@ test("invalid, duplicate and unpublished highlights fail before rendering", () =
   assert.throws(() => profileContent({ ...profileConfig, highlights: [] }), /distinct/);
 });
 
-test("README has full-width maps and only an Expand link in each configured section", () => {
+test("README has full-width linked maps without separate Expand links", () => {
   const content = profileContent();
   const readme = profileReadme(profileConfig, content);
   assert.equal((readme.match(/<details /g) || []).length, 5);
   assert.equal((readme.match(/ open>/g) || []).length, 1);
   assert.equal(readme.replace(/<!--[^]*?-->|<details\b[^]*?<\/details>/g, "").trim(), "");
-  assert.equal((readme.match(/<p align="left"><img/g) || []).length, 5);
+  assert.equal((readme.match(/<p align="left"><a /g) || []).length, 5);
   assert.doesNotMatch(readme, /align="right"/);
   assert.match(readme, /src="\.\/island-homepage.svg"/);
   assert.equal((readme.match(/width="100%"/g) || []).length, 5);
-  assert.equal((readme.match(/>Expand\.\.\.<\/a>/g) || []).length, 5);
+  assert.doesNotMatch(readme, /Expand/);
   for (const view of content.views) {
     const section = readme.split(`<summary>${view.title}</summary>`)[1].split("</details>")[0];
-    assert.match(section, new RegExp(`<a href="${view.href.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}">Expand\\.\\.\\.</a>`));
-    assert.equal((section.match(/<p>/g) || []).length, 1);
+    assert.ok(section.includes(`<a href="${view.href}"><img `));
+    assert.equal((section.match(/<p>/g) || []).length, 0);
   }
   const preview = profilePreview(profileConfig, content);
-  assert.equal((preview.match(/>Expand\.\.\.<\/a>/g) || []).length, 5);
+  assert.doesNotMatch(preview, /Expand/);
+  for (const view of content.views) assert.ok(preview.includes(`<a href="${view.href}"><div class="viewport"`));
   assert.ok(!preview.includes(content.introduction.description));
   assert.ok(readme.indexOf("<summary>About Me") > readme.indexOf("<summary>Trapdoor VMs"));
 });
@@ -69,13 +70,14 @@ test("production SVGs have no alignment spacer at any destination", () => {
   content.views.forEach((view, index) => {
     const svg = svgFor(view, Buffer.from("fixture"), { ...profileConfig, views: content.views }, index);
     assert.match(svg, /viewBox="0 0 600 360"/);
+    if (view.id === "overview") assert.match(svg, /animation:camera 40s/);
     assert.ok(svg.includes(`id="${view.id}" transform="translate(0 0)"`));
   });
 });
 
 test("export configuration and embedded-resource checks reject unsafe or oversized input", () => {
   validateConfig(profileConfig);
-  for (const change of [{ width: 0 }, { highlightFrames: 1 }, { columns: 50 }, { quality: 2 }, { sceneTime: -1 }, { maxTotalBytes: 0 }, { siteUrl: "javascript:alert(1)" }]) {
+  for (const change of [{ width: 0 }, { highlightFrames: 1 }, { overviewSeconds: 0 }, { columns: 50 }, { quality: 2 }, { sceneTime: -1 }, { maxTotalBytes: 0 }, { siteUrl: "javascript:alert(1)" }]) {
     assert.throws(() => validateConfig({ ...profileConfig, ...change }));
   }
   assert.throws(() => validateSvg('<svg><script>bad</script></svg>'), /interactive/);

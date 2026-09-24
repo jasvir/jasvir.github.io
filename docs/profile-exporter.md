@@ -55,7 +55,7 @@ unpublished selections fail rather than silently disappearing.
 - `island-two-dozen.svg`, `island-secretseal.svg`, `island-trapdoor.svg`,
   `island-homepage.svg`: looping approaches, returns and vector cards.
 - `README.md`: full-width relative image references and native details sections.
-  Each body contains only its map and one `Expand...` link to the corresponding
+  Each body contains only its map, wrapped in a link to the corresponding
   full-site destination (including About Me). All visible content stays inside
   the details sections; images and summary labels share a left edge.
 - `preview.html`: CSS-only local sidebar preview of those exact SVGs.
@@ -78,7 +78,8 @@ stage, not a claim that the atlas format is fully optimized.
 ## Playback and reproducibility
 
 The geometry and frames come from the live scene, but README playback is CSS
-animation of embedded WebP frames. Small labels are captured pixels; popup cards
+animation of embedded WebP frames. The overview makes one rotation every 40 seconds
+(configured with `overviewSeconds`). Small labels are captured pixels; popup cards
 are SVG text. Each destination approaches in 1.6 seconds, returns by 4.8 seconds,
 holds its centred card for 15 seconds, fades for 0.6 seconds, and loops. The return
 reuses the approach atlas in reverse. Reduced motion shows the static overview
