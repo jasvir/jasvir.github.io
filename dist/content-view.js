@@ -155,8 +155,9 @@ for (const [key, site] of Object.entries(islandLayout.sites)) {
     copy.append(element("small", "", contents.length > 1 ? `${contents.length} things to explore` : site.name));
   }
   copy.append(element("strong", "", siteTitle(contents, site)));
-  if (!hasPreview && first.hoverDescription) {
-    const description = element("span", "sign-description", first.hoverDescription);
+  const hoverDescription = first.hoverDescription || first.summary || first.lede;
+  if (hoverDescription) {
+    const description = element("span", "sign-description", hoverDescription);
     description.id = `sign-description-${first.id}`;
     trigger.setAttribute("aria-describedby", description.id);
     copy.append(description);

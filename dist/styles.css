@@ -410,6 +410,7 @@ button {
   border: 0;
   background: transparent;
   cursor: pointer;
+  text-align: left;
   pointer-events: auto;
   transform: translate(-50%, -100%);
   transform-origin: 50% 100%;
@@ -487,7 +488,7 @@ a.building-sign {
 
 .sign-copy {
   display: block;
-  min-width: max-content;
+  min-width: 0;
   padding: 0.42rem 0.65rem;
   border: 1px solid rgba(33, 56, 58, 0.22);
   border-radius: 0.58rem 0.58rem 0.58rem 0.12rem;
@@ -514,6 +515,7 @@ a.building-sign {
 
 .sign-copy strong {
   font-size: 0.72rem;
+  white-space: nowrap;
 }
 
 .sign-description {
@@ -521,19 +523,21 @@ a.building-sign {
   color: var(--muted);
   font-size: 0.62rem;
   line-height: 1.4;
-  white-space: nowrap;
+  width: max-content;
+  max-width: min(18rem, calc(100vw - 6rem));
+  white-space: normal;
+  text-align: left;
 }
 
 .building-sign:hover .sign-description,
-.building-sign:focus-visible .sign-description {
+.building-sign:focus-within .sign-description {
   display: block;
   margin-top: 0.24rem;
 }
 
 .building-sign:hover .sign-copy,
-.building-sign:focus-visible .sign-copy {
+.building-sign:focus-within .sign-copy {
   box-shadow: 0 7px 0 var(--lavender), 0 12px 24px rgba(33, 56, 58, 0.18);
-  transform: translateY(-5px) rotate(-1deg) scale(1.06);
 }
 
 .building-sign:focus-visible {
@@ -545,8 +549,8 @@ a.building-sign {
   outline-offset: 3px;
 }
 
-.writing-sign:hover,
-.writing-sign:focus-within {
+.building-sign:hover,
+.building-sign:focus-within {
   z-index: 9;
 }
 
@@ -560,6 +564,7 @@ a.building-sign {
   background: transparent;
   font: inherit;
   cursor: pointer;
+  text-align: left;
 }
 
 .sign-trigger:focus-visible {
@@ -574,7 +579,8 @@ a.building-sign {
 .post-preview {
   position: absolute;
   top: calc(100% - 1px);
-  left: 50%;
+  /* Continue the left edge of the label card, past its pin and gap. */
+  left: calc(1.65rem + 0.45rem);
   display: none;
   width: min(19rem, calc(100vw - 2rem));
   padding: 0.9rem 1rem;
@@ -584,7 +590,7 @@ a.building-sign {
   background: rgba(255, 253, 248, 0.98);
   box-shadow: 5px 6px 0 var(--lavender), 0 14px 32px rgba(33, 56, 58, 0.18);
   cursor: default;
-  transform: translateX(-50%);
+  text-align: left;
 }
 
 .writing-sign:hover .post-preview,

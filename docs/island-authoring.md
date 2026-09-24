@@ -20,6 +20,14 @@ Serve the `dist/` directory with any static file server, then open its local URL
 
 ## Adding a post, article, project, or link
 
+Every building label reveals a left-aligned description on hover or keyboard
+focus, using `hoverDescription`, then `summary`, then `lede`. Writing labels also
+show their three recent posts in a dropdown aligned with the label card's left
+edge. Hidden descriptions do not widen the resting label. Run
+`node scripts/check-label-hovers.mjs` after label changes (requires the installed
+Playwright Chromium); it checks all eight labels and saves screenshots in
+`build/label-check/`.
+
 Edit **`dist/content.js`**. Each entry is written once; the page makes its directory
 row, links, and popup automatically. No build step or HTML edits are needed.
 For example, add this inside `entries`, replacing the example title and URL:
