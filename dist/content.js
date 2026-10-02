@@ -37,7 +37,7 @@ export const entries = {
     district: "Library quarter",
     icon: "✧",
     type: "An API-shaped experiment",
-    lede: "Ask for a function and Gemini Nano writes its implementation on your device. DWIM caches it for the next call: an imaginary library of practically every API, with no server, API key, or runtime dependencies.",
+    lede: "Call any function and this - the largest JS library ever - and it does what you mean.  (Ahem really - Gemini Nano writes its implementation on your device). An imaginary library of practically every API, with no server, API key, or runtime dependencies.  Or guarantee of correctness",
     question: "What if a library could make up the API you meant, instead of asking you to remember the one it actually has?",
     work: "The browser playground lets you try invented functions and inspect the generated source. It needs Chrome’s Prompt API on HTTPS or localhost; calls and property values are asynchronous, and arguments must be JSON data. This is a joke library that runs real, unsandboxed JavaScript: it can be wrong, and its README warns against enabling unsafe-eval for it.",
     mode: "Experimental joke library and playground",
