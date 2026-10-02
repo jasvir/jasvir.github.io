@@ -41,7 +41,7 @@ try {
   await page.locator("#scene-loader").waitFor({ state: "hidden" });
   await page.locator("#motion-toggle").click();
   const signs = page.locator(".building-sign");
-  assert.equal(await signs.count(), 8);
+  assert.equal(await signs.count(), 9);
   for (let i = 0; i < await signs.count(); i++) {
     await page.mouse.move(10, 10);
     await page.evaluate(() => document.activeElement?.blur());
@@ -70,15 +70,21 @@ try {
       await preview.locator("a").first().hover();
       assert.equal(await preview.isVisible(), true, `${id}: dropdown disappears when entering links`);
     }
-    if (["sign-two-dozen", "sign-homepage"].includes(id)) await page.screenshot({ path: `${output}/${id}.png` });
+    if (["sign-two-dozen", "sign-homepage", "sign-dwim"].includes(id)) await page.screenshot({ path: `${output}/${id}.png` });
     await page.mouse.move(10, 10);
     const trigger = await sign.getAttribute("type") === "button" ? sign : sign.locator(".sign-trigger");
     await trigger.focus();
     assert.equal(await description.isVisible(), true, `${id}: keyboard description missing`);
     if (await preview.count()) assert.equal(await preview.isVisible(), true, `${id}: keyboard post list missing`);
   }
+  await page.goto(`${origin}/#project-dwim`);
+  await page.locator("#project-dialog[open]").waitFor();
+  assert.equal(await page.locator("#dialog-title").textContent(), "DWIM — Do What I Mean");
+  assert.deepEqual(await page.locator(".dialog-actions a").evaluateAll(links => links.map(link => link.href)), ["https://github.com/jasvir/dwim", "https://jasvir.github.io/dwim/"]);
+  assert.match(await page.locator("#dialog-work").textContent(), /unsandboxed JavaScript/);
+  await page.screenshot({ path: `${output}/dwim-dialog.png` });
   assert.deepEqual(errors, []);
-  console.log("Passed: all 8 labels expand on hover and focus, with left-aligned descriptions and both three-post dropdowns.");
+  console.log("Passed: all 9 label hover/focus previews, aligned post dropdowns, and the DWIM popup and links.");
 } finally {
   await browser?.close();
   await new Promise(ok => server.close(ok));

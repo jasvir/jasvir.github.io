@@ -25,7 +25,7 @@ test("the existing projects and destinations all resolve to saved buildings", ()
 
 test("all four repositories in the Featured list have project stops", () => {
   const projects = createCatalogue(entries, islandLayout.sites).directory
-    .filter((item) => item.kind === "project");
+    .filter((item) => ["secretseal", "trapdoor", "caja", "plush"].includes(item.id));
   assert.deepEqual(projects.map((item) => item.id), ["secretseal", "trapdoor", "caja", "plush"]);
   assert.deepEqual(projects.map((item) => item.links[0].url), [
     "https://github.com/jasvir/secretseal",
@@ -33,6 +33,18 @@ test("all four repositories in the Featured list have project stops", () => {
     "https://github.com/jasvir/google-caja",
     "https://github.com/jasvir/plush",
   ]);
+});
+
+test("DWIM has its own stop near SecretSeal with README-based descriptions and both links", () => {
+  const entry = createCatalogue(entries, islandLayout.sites).byId.get("dwim");
+  assert.equal(entry.kind, "project");
+  assert.equal(entry.site, "dwim");
+  assert.ok(entry.hoverDescription && entry.summary && entry.lede);
+  assert.match(entry.lede, /Gemini Nano/);
+  assert.match(entry.work, /unsandboxed JavaScript/);
+  assert.deepEqual(entry.links.map(link => link.url), ["https://github.com/jasvir/dwim", "https://jasvir.github.io/dwim/"]);
+  const a = islandLayout.sites.dwim.position, b = islandLayout.sites.library.position;
+  assert.ok(Math.hypot(a[0] - b[0], a[2] - b[2]) < 2);
 });
 
 test("adding an article shares a building and leaves all geography untouched", () => {

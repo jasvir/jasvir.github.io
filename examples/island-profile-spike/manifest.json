@@ -1,5 +1,5 @@
 {
-  "sourceHash": "cec881f7a172e7eb6e5c8fd92b56dc411f69a8ddfe9f201342d58ad4d8c52cbe",
+  "sourceHash": "54e043a7444a275b72510d2c956cb0c224d21b2a01d93daa17225b9b3cf74256",
   "sourceFiles": [
     "island-layout.js",
     "coastlines.js",
@@ -26,7 +26,7 @@
   ],
   "width": 600,
   "height": 520,
-  "svgBytes": 9604213,
+  "svgBytes": 9707009,
   "frames": 224,
   "views": [
     {
@@ -34,45 +34,45 @@
       "site": "overview",
       "frames": 96,
       "file": "island.svg",
-      "atlasBytes": 3274782,
-      "svgBytes": 4371778,
-      "gzipBytes": 3300708
+      "atlasBytes": 3317780,
+      "svgBytes": 4429110,
+      "gzipBytes": 3344362
     },
     {
       "id": "two-dozen",
       "site": "twoDozen",
       "frames": 32,
       "file": "island-two-dozen.svg",
-      "atlasBytes": 964526,
-      "svgBytes": 1290813,
-      "gzipBytes": 972093
+      "atlasBytes": 970938,
+      "svgBytes": 1299361,
+      "gzipBytes": 978595
     },
     {
       "id": "homepage",
       "site": "home",
       "frames": 32,
       "file": "island-homepage.svg",
-      "atlasBytes": 981342,
-      "svgBytes": 1313649,
-      "gzipBytes": 989836
+      "atlasBytes": 991276,
+      "svgBytes": 1326897,
+      "gzipBytes": 999885
     },
     {
       "id": "secretseal",
       "site": "library",
       "frames": 32,
       "file": "island-secretseal.svg",
-      "atlasBytes": 963258,
-      "svgBytes": 1289131,
-      "gzipBytes": 971663
+      "atlasBytes": 977792,
+      "svgBytes": 1308511,
+      "gzipBytes": 986181
     },
     {
       "id": "trapdoor",
       "site": "research",
       "frames": 32,
       "file": "island-trapdoor.svg",
-      "atlasBytes": 1000540,
-      "svgBytes": 1338842,
-      "gzipBytes": 1009140
+      "atlasBytes": 1003758,
+      "svgBytes": 1343130,
+      "gzipBytes": 1012359
     }
   ],
   "sceneTime": 7,

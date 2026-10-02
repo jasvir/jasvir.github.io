@@ -11,6 +11,10 @@ export const islandLayout = {
       name: "Reading room", model: "library",
       position: [-3.4, 1, 0.2], label: [-3.4, 2.9, 0.2],
     },
+    dwim: {
+      name: "Improvised API desk", model: "sign", icon: "✧",
+      position: [-4.8, 1, 1.4], label: [-4.8, 2.4, 1.4],
+    },
     research: {
       name: "Research annex", model: "observatory",
       position: [-1.4, 1, 0.8], label: [-1.4, 3.55, 0.8],

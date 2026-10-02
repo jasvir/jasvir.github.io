@@ -25,7 +25,7 @@ focus, using `hoverDescription`, then `summary`, then `lede`. Writing labels als
 show their three recent posts in a dropdown aligned with the label card's left
 edge. Hidden descriptions do not widen the resting label. Run
 `node scripts/check-label-hovers.mjs` after label changes (requires the installed
-Playwright Chromium); it checks all eight labels and saves screenshots in
+Playwright Chromium); it checks all nine labels and saves screenshots in
 `build/label-check/`.
 
 Edit **`dist/content.js`**. Each entry is written once; the page makes its directory

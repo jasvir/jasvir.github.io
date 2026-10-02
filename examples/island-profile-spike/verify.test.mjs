@@ -50,7 +50,7 @@ test("overview loops, approaches hold the final popup, and readme offsets match 
 
 test("generated navigation and descriptions follow the shared catalogue", async () => {
   assert.deepEqual(views.map(view=>view.id),["overview","two-dozen","homepage","secretseal","trapdoor"]);
-  assert.deepEqual(mapLabels.map(label=>label.text),["SecretSeal","Trapdoor VMs","Caja","Plush","About Me","Recursive Rhymes","Two Dozen","YouTube"]);
+  assert.deepEqual(mapLabels.map(label=>label.text),["SecretSeal","DWIM","Trapdoor VMs","Caja","Plush","About Me","Recursive Rhymes","Two Dozen","YouTube"]);
   const config={views,width:600,height:360,compensationPixels:40};
   assert.equal(readme,readmeFor(config));
   assert.equal(await readFile(new URL("./preview.html",import.meta.url),"utf8"),previewFor(config));
