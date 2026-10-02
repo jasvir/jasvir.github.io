@@ -123,25 +123,46 @@ test("the saved railway is a closed, connected route", () => {
   }
 });
 
-test("writing previews separate the two series and keep three recent links each", () => {
+test("saved writing previews have three distinct unpinned links in each series", () => {
   for (const category of ["regular", "twoDozen"]) {
     assert.equal(writingPosts[category].length, 3);
     assert.equal(new Set(writingPosts[category].map((post) => post.url)).size, 3);
     assert.ok(writingPosts[category].every((post) => post.url.startsWith("https://www.recursiverhymes.com/p/")));
     assert.ok(writingPosts[category].every((post) => !pinnedStoryUrls.has(post.url)));
   }
+});
+
+test("writing feed merges use fixed fixtures independent of the live publication", () => {
   const item = (title, path, description, date) => `<item><title><![CDATA[${title}]]></title><link>https://www.recursiverhymes.com/p/${path}</link><description><![CDATA[${description}]]></description><pubDate>${date}</pubDate></item>`;
   const xml = `<rss><channel>${item("New regular post", "new-regular", "An essay", "Thu, 24 Sep 2026 01:00:00 GMT")}${item("New poem", "new-poem", "Two Dozen Poems · Entry 15 of 24", "Thu, 24 Sep 2026 02:00:00 GMT")}</channel></rss>`;
   const parsed = parseWritingFeed(xml);
   assert.deepEqual(parsed.regular.map((post) => post.title), ["New regular post"]);
   assert.deepEqual(parsed.twoDozen.map((post) => post.title), ["New poem"]);
-  const refreshed = refreshedSnapshot(xml, writingPosts, "2026-09-24T03:00:00.000Z");
+  const post = (title, path, publishedAt) => ({ title, url: `https://www.recursiverhymes.com/p/${path}`, publishedAt });
+  const saved = {
+    regular: [post("Older essay", "older-essay", "2026-09-20T00:00:00Z"), post("Oldest essay", "oldest-essay", "2026-09-19T00:00:00Z")],
+    twoDozen: [post("Older poem", "older-poem", "2026-09-20T00:00:00Z"), post("Oldest poem", "oldest-poem", "2026-09-19T00:00:00Z"), post("Pinned introduction", "coming-soon", "2099-01-01T00:00:00Z")],
+  };
+  const original = structuredClone(saved);
+  const refreshed = refreshedSnapshot(xml, saved, "2026-09-24T03:00:00.000Z");
   assert.equal(refreshed.regular[0].title, "New regular post");
   assert.equal(refreshed.twoDozen[0].title, "New poem");
   assert.equal(refreshed.regular.length, 3);
   assert.equal(refreshed.twoDozen.length, 3);
   assert.ok(refreshed.regular.every((post) => !pinnedStoryUrls.has(post.url)));
   assert.ok(refreshed.twoDozen.every((post) => !pinnedStoryUrls.has(post.url)));
+  assert.deepEqual(saved, original, "refresh must not mutate its fallback");
+  assert.equal(refreshed.refreshedAt, "2026-09-24T03:00:00.000Z");
+
+  // A cached post newer than the feed must win by date, not by fetch order.
+  const laterSaved = {
+    regular: [post("Later essay", "later-essay", "2026-10-01T00:00:00Z"), ...saved.regular],
+    twoDozen: [post("Later poem", "later-poem", "2026-10-01T00:00:00Z"), ...saved.twoDozen],
+  };
+  const later = refreshedSnapshot(xml, laterSaved, "2026-10-02T00:00:00Z");
+  assert.deepEqual(later.regular.map(post => post.title), ["Later essay", "New regular post", "Older essay"]);
+  assert.deepEqual(later.twoDozen.map(post => post.title), ["Later poem", "New poem", "Older poem"]);
+  assert.deepEqual(refreshedSnapshot(xml, later, later.refreshedAt), later, "repeated feed must not duplicate posts");
 });
 
 test("the map has four icon controls, social badges, and no instruction footer", async () => {
