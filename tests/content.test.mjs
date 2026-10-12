@@ -47,6 +47,36 @@ test("DWIM has its own stop near SecretSeal with README-based descriptions and b
   assert.ok(Math.hypot(a[0] - b[0], a[2] - b[2]) < 2);
 });
 
+test("Bookshelf has README-based descriptions and a miniature library on a separate islet", () => {
+  const entry = createCatalogue(entries, islandLayout.sites).byId.get("bookshelf");
+  assert.equal(entry.kind, "project");
+  assert.equal(entry.site, "bookshelf");
+  assert.equal(entry.title, "The Unfinished Library");
+  assert.ok(entry.hoverDescription && entry.summary && entry.work);
+  assert.match(entry.lede, /Colin Thompson/);
+  assert.match(entry.lede, /punning titles/);
+  assert.deepEqual(entry.links.map(link => link.url), ["https://github.com/jasvir/bookshelf", "https://jasvir.github.io/bookshelf/"]);
+  const site = islandLayout.sites.bookshelf;
+  assert.equal(site.model, "library");
+  assert.ok(site.scale > 0 && site.scale < 1);
+  assert.equal(site.position[1], -0.36, "sit on the islet surface");
+  const contains = (outline, x, z) => {
+    let inside = false;
+    for (let i = 0, j = outline.length - 1; i < outline.length; j = i++) {
+      const [ax, az] = outline[i], [bx, bz] = outline[j];
+      if ((az > z) !== (bz > z) && x < (bx - ax) * (z - az) / (bz - az) + ax) inside = !inside;
+    }
+    return inside;
+  };
+  const [x, , z] = site.position;
+  assert.ok(coastlines.islets.some(outline => contains(outline, x, z)));
+  for (const outline of [coastlines.viti, coastlines.vanua, coastlines.taveuni]) assert.equal(contains(outline, x, z), false);
+  // The library's foundation should fit on dry land, not overhang the ocean.
+  for (const dx of [-1, 1]) for (const dz of [-0.925, 0.925]) {
+    assert.ok(coastlines.islets.some(outline => contains(outline, x + dx * site.scale, z + dz * site.scale)));
+  }
+});
+
 test("adding an article shares a building and leaves all geography untouched", () => {
   const before = JSON.stringify({ islandLayout, coastlines, entries });
   const baseline = createCatalogue(entries, islandLayout.sites);

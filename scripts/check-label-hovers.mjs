@@ -41,7 +41,7 @@ try {
   await page.locator("#scene-loader").waitFor({ state: "hidden" });
   await page.locator("#motion-toggle").click();
   const signs = page.locator(".building-sign");
-  assert.equal(await signs.count(), 9);
+  assert.equal(await signs.count(), 10);
   for (let i = 0; i < await signs.count(); i++) {
     await page.mouse.move(10, 10);
     await page.evaluate(() => document.activeElement?.blur());
@@ -70,7 +70,7 @@ try {
       await preview.locator("a").first().hover();
       assert.equal(await preview.isVisible(), true, `${id}: dropdown disappears when entering links`);
     }
-    if (["sign-two-dozen", "sign-homepage", "sign-dwim"].includes(id)) await page.screenshot({ path: `${output}/${id}.png` });
+    if (["sign-two-dozen", "sign-homepage", "sign-dwim", "sign-bookshelf"].includes(id)) await page.screenshot({ path: `${output}/${id}.png` });
     await page.mouse.move(10, 10);
     const trigger = await sign.getAttribute("type") === "button" ? sign : sign.locator(".sign-trigger");
     await trigger.focus();
@@ -83,8 +83,14 @@ try {
   assert.deepEqual(await page.locator(".dialog-actions a").evaluateAll(links => links.map(link => link.href)), ["https://github.com/jasvir/dwim", "https://jasvir.github.io/dwim/"]);
   assert.match(await page.locator("#dialog-work").textContent(), /unsandboxed JavaScript/);
   await page.screenshot({ path: `${output}/dwim-dialog.png` });
+  await page.goto(`${origin}/#project-bookshelf`);
+  await page.locator("#project-dialog[open]").waitFor();
+  assert.equal(await page.locator("#dialog-title").textContent(), "The Unfinished Library");
+  assert.deepEqual(await page.locator(".dialog-actions a").evaluateAll(links => links.map(link => link.href)), ["https://github.com/jasvir/bookshelf", "https://jasvir.github.io/bookshelf/"]);
+  assert.match(await page.locator("#project-dialog").textContent(), /Colin Thompson/);
+  await page.screenshot({ path: `${output}/bookshelf-dialog.png` });
   assert.deepEqual(errors, []);
-  console.log("Passed: all 9 label hover/focus previews, aligned post dropdowns, and the DWIM popup and links.");
+  console.log("Passed: all 10 label hover/focus previews, aligned post dropdowns, and the DWIM and Bookshelf popups and links.");
 } finally {
   await browser?.close();
   await new Promise(ok => server.close(ok));

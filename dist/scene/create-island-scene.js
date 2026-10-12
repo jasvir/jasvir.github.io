@@ -561,6 +561,7 @@ export function createIslandScene({ createCanvas, maxAnisotropy = 1, layout = is
       if (site.model === "sign") return [];
       const building = markProject(buildingFactories[site.model](site), key);
       building.position.set(...site.position);
+      building.scale.setScalar(site.scale ?? 1);
       building.rotation.y = site.rotation || 0;
       world.add(building);
       return [[key, building]];

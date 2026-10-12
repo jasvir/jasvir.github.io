@@ -15,6 +15,11 @@ export const islandLayout = {
       name: "Improvised API desk", model: "sign", icon: "✧",
       position: [-4.8, 1, 1.4], label: [-4.8, 2.4, 1.4],
     },
+    bookshelf: {
+      // A miniature reading room on the existing islet between the main islands.
+      name: "The Unfinished Library", model: "library", scale: 0.28,
+      position: [13.65, -0.36, -4.95], label: [13.65, 1.05, -4.95],
+    },
     research: {
       name: "Research annex", model: "observatory",
       position: [-1.4, 1, 0.8], label: [-1.4, 3.55, 0.8],
